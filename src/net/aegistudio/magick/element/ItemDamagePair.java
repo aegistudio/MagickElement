@@ -13,7 +13,7 @@ public class ItemDamagePair implements Comparable<ItemDamagePair>{
 
 	@Override
 	public int compareTo(ItemDamagePair target) {
-		int materialRelation = (material.compareTo(material));
+		int materialRelation = (material.compareTo(target.material));
 		if(materialRelation != 0) return materialRelation;
 		if(damage == target.damage) return 0;
 		return damage > target.damage? 1 : -1;

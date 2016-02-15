@@ -43,7 +43,7 @@ public class ElementDefinition {
 	public boolean helpful(ElementDefinition element) {
 		for(Entry<String, Integer> entry : elementPoint.entrySet())
 			if(entry.getValue().intValue() > 0)
-				if(element.getElementValue(entry.getKey()) > 0)
+				if(element.getElementValue(entry.getKey()) > 0) 
 					return true;
 		return false;
 	}

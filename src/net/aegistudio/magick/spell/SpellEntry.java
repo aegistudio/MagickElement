@@ -1,12 +1,16 @@
 package net.aegistudio.magick.spell;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.element.ElementDefinition;
 
 public class SpellEntry {
 	public SpellEffect effect;
-	public ElementDefinition spellPrice;
+	public ElementDefinition spellPrice = new ElementDefinition();
 	public Object handlerInfo;
 	
 	private final MagickElement magickElement;
@@ -16,7 +20,7 @@ public class SpellEntry {
 	}
 	
 	public static final String EFFECT_CLASS = "effectClass";
-	public static final String EFFECT_CONFIG = "effectConfiig";
+	public static final String EFFECT_CONFIG = "effectConfig";
 	
 	public static final String ELEMENT_REQUIRED = "elementRequired";
 	
@@ -65,5 +69,9 @@ public class SpellEntry {
 		
 		// Save spell handle config.
 		magickElement.handler.saveSpell(this, configuration);
+	}
+	
+	public void makeMagick(MagickElement element, Player player, Location location, ItemStack bookUsing, String spellContent) {
+		this.effect.spell(element, player, location, spellContent.split(" "));
 	}
 }

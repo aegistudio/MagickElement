@@ -66,14 +66,16 @@ public class CauldronInventoryHandler {
 				if(spellEntry == null) continue;
 
 				// Make calcuation for this book.
-				cost.accum(spellEntry.spellPrice, 1);
+				cost.accum(spellEntry.spellPrice, item.getAmount());
 				for(int i = 0; i < content.getSize(); i ++) {
 					// If enough spell cost is collected, end this progress.
 					if(cost.redundant()) break;
 					
 					ItemStack itemStack = content.getItem(i);
-					// Do not adsorb a magick book.
-					if(element.book.isMagickBook(itemStack)) continue;
+					
+					// Do not adsorb any book.
+					if(itemStack == null) continue;
+					if(itemStack.getType() == Material.WRITTEN_BOOK) continue;
 					
 					// Reduce price.
 					ElementDefinition define = element.element.definition(itemStack);

@@ -15,7 +15,7 @@ public class SpellRegistry {
 	}
 	
 	public SpellEntry getSpell(String spellContent) {
-		return spellRegistries.get(spellContent);
+		return spellRegistries.get(spellContent.split(" ")[0]);
 	}
 	
 	public void loadConfig(ConfigurationSection spellSection) throws Exception {

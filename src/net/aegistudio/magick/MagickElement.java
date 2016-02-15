@@ -15,8 +15,10 @@ import net.aegistudio.magick.element.ElementDefinition;
 import net.aegistudio.magick.element.ElementHolder;
 import net.aegistudio.magick.element.ItemDamagePair;
 import net.aegistudio.magick.mp.MpSpellHandler;
+import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
 import net.aegistudio.magick.spell.SpellRegistry;
+import net.aegistudio.magick.spell.SpellStub;
 
 public class MagickElement extends JavaPlugin {
 	public static final String BOOK_FACTORY = "bookFactory";
@@ -118,6 +120,14 @@ public class MagickElement extends JavaPlugin {
 				registry.loadConfig(spellConfig = config.getConfigurationSection(SPELL_CONFIG));
 			else {
 				spellConfig = config.createSection(SPELL_CONFIG);
+				
+				SpellEntry stub = new SpellEntry(this);
+				stub.effect = new SpellStub();
+				stub.spellPrice = new ElementDefinition();
+				stub.spellPrice.setElementPoint("fire", 1);
+				stub.handlerInfo = 1;
+				
+				registry.spellRegistries.put("stub", stub);
 			}
 			registry.saveConfig(spellConfig);
 			
