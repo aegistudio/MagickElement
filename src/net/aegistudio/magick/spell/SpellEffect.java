@@ -9,7 +9,7 @@ import net.aegistudio.magick.MagickElement;
 public interface SpellEffect {
 	public void spell(MagickElement element, Player sender, Location location, String[] params);
 	
-	public void load(ConfigurationSection spellConfig);
+	public void load(MagickElement element, ConfigurationSection spellConfig);
 	
-	public void save(ConfigurationSection spellConfig);	
+	public void save(MagickElement element, ConfigurationSection spellConfig);	
 }

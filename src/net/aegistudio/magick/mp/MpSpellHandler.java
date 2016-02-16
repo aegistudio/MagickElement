@@ -41,6 +41,8 @@ public class MpSpellHandler implements SpellHandler {
 				for(String spell : spells)
 					element.registry.getSpell(spell)
 						.makeMagick(element, player, player.getLocation(), magickBook, spell);
+				
+				new MpCooldown(this, player);
 			}
 			
 			String title = ((BookMeta)(magickBook.getItemMeta())).getTitle();
@@ -54,7 +56,6 @@ public class MpSpellHandler implements SpellHandler {
 			
 			if(finalMessage.length() > 0)
 				player.sendMessage(finalMessage);
-			new MpCooldown(this, player);
 		}
 	}
 

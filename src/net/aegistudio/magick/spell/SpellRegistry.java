@@ -18,21 +18,21 @@ public class SpellRegistry {
 		return spellRegistries.get(spellContent.split(" ")[0]);
 	}
 	
-	public void loadConfig(ConfigurationSection spellSection) throws Exception {
+	public void loadConfig(MagickElement element, ConfigurationSection spellSection) throws Exception {
 		for(String spellKey : spellSection.getKeys(false)) {
 			ConfigurationSection spell = spellSection.getConfigurationSection(spellKey);
 			SpellEntry spellEntry = new SpellEntry(this.element);
-			spellEntry.load(spell);
+			spellEntry.load(element, spell);
 			spellRegistries.put(spellKey, spellEntry);
 		}
 	}
 	
-	public void saveConfig(ConfigurationSection spellSection) throws Exception {
+	public void saveConfig(MagickElement element, ConfigurationSection spellSection) throws Exception {
 		for(Entry<String, SpellEntry> spellRegistry : spellRegistries.entrySet()) {
 			String spellKey = spellRegistry.getKey(); SpellEntry spellEntry = spellRegistry.getValue();
 			if(!spellSection.contains(spellKey)) spellSection.createSection(spellKey);
 			ConfigurationSection spell = spellSection.getConfigurationSection(spellKey);
-			spellEntry.save(spell);
+			spellEntry.save(element, spell);
 		}
 	}
 }

@@ -3,6 +3,7 @@ package net.aegistudio.magick;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.aegistudio.magick.book.BookFactory;
@@ -11,6 +12,8 @@ import net.aegistudio.magick.book.PagingBookFactory;
 import net.aegistudio.magick.cauldron.CauldronInventoryHandler;
 import net.aegistudio.magick.cauldron.CauldronFactory;
 import net.aegistudio.magick.cauldron.MagickCauldronFactory;
+import net.aegistudio.magick.effect.EntityRain;
+import net.aegistudio.magick.effect.FeatherFall;
 import net.aegistudio.magick.element.ElementDefinition;
 import net.aegistudio.magick.element.ElementHolder;
 import net.aegistudio.magick.element.ItemDamagePair;
@@ -18,7 +21,6 @@ import net.aegistudio.magick.mp.MpSpellHandler;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
 import net.aegistudio.magick.spell.SpellRegistry;
-import net.aegistudio.magick.spell.SpellStub;
 
 public class MagickElement extends JavaPlugin {
 	public static final String BOOK_FACTORY = "bookFactory";
@@ -95,12 +97,130 @@ public class MagickElement extends JavaPlugin {
 			else {
 				elementSection = config.createSection(ELEMENT_CONFIG);
 				
-				ItemDamagePair blazeRod = new ItemDamagePair(Material.BLAZE_ROD, -1);
-				ElementDefinition blazeRodDefinition = new ElementDefinition();
-				blazeRodDefinition.setElementPoint("fire", 3);
-				blazeRodDefinition.setElementPoint("divine", 1);
-				blazeRodDefinition.setElementPoint("evil", 1);
-				element.element.put(blazeRod, blazeRodDefinition);
+				{
+					ItemDamagePair blazeRod = new ItemDamagePair(Material.BLAZE_ROD, -1);
+					ElementDefinition blazeRodDefinition = new ElementDefinition();
+					blazeRodDefinition.setElementPoint("fire", 3);
+					blazeRodDefinition.setElementPoint("divine", 1);
+					blazeRodDefinition.setElementPoint("evil", 1);
+					element.element.put(blazeRod, blazeRodDefinition);
+				}
+				
+				{
+					ItemDamagePair blazePowder = new ItemDamagePair(Material.BLAZE_POWDER, -1);
+					ElementDefinition blazePowderDefinition = new ElementDefinition();
+					blazePowderDefinition.setElementPoint("fire", 2);
+					element.element.put(blazePowder, blazePowderDefinition);
+				}
+				
+				{
+					ItemDamagePair feather = new ItemDamagePair(Material.FEATHER, -1);
+					ElementDefinition featherDefinition = new ElementDefinition();
+					featherDefinition.setElementPoint("wind", 2);
+					featherDefinition.setElementPoint("divine", 1);
+					element.element.put(feather, featherDefinition);
+				}
+				
+				{
+					ItemDamagePair redstonePowder = new ItemDamagePair(Material.REDSTONE, -1);
+					ElementDefinition redstonePowderDefinition = new ElementDefinition();
+					redstonePowderDefinition.setElementPoint("electric", 1);
+					element.element.put(redstonePowder, redstonePowderDefinition);
+				}
+				
+				{
+					ItemDamagePair redstoneBlock = new ItemDamagePair(Material.REDSTONE_BLOCK, -1);
+					ElementDefinition redstoneBlockDefinition = new ElementDefinition();
+					redstoneBlockDefinition.setElementPoint("electric", 9);
+					element.element.put(redstoneBlock, redstoneBlockDefinition);
+				}
+				
+				{
+					ItemDamagePair waterBucket = new ItemDamagePair(Material.WATER_BUCKET, -1);
+					ElementDefinition waterBucketDefinition = new ElementDefinition();
+					waterBucketDefinition.setElementPoint("water", 2);
+					element.element.put(waterBucket, waterBucketDefinition);					
+					element.transform.put(waterBucket, new ItemDamagePair(Material.BUCKET, -1));
+				}
+				
+				{
+					ItemDamagePair lavaBucket = new ItemDamagePair(Material.LAVA_BUCKET, -1);
+					ElementDefinition lavaBucketDefinition = new ElementDefinition();
+					lavaBucketDefinition.setElementPoint("fire", 2);
+					element.element.put(lavaBucket, lavaBucketDefinition);					
+					element.transform.put(lavaBucket, new ItemDamagePair(Material.BUCKET, -1));
+				}
+				
+				{
+					ItemDamagePair waterPotion = new ItemDamagePair(Material.POTION, 0);
+					ElementDefinition waterPotionDefinition = new ElementDefinition();
+					waterPotionDefinition.setElementPoint("water", 1);
+					element.element.put(waterPotion, waterPotionDefinition);
+					element.transform.put(waterPotion, new ItemDamagePair(Material.GLASS_BOTTLE, -1));
+				}
+				
+				{
+					ItemDamagePair ice = new ItemDamagePair(Material.ICE, -1);
+					ElementDefinition iceDefinition = new ElementDefinition();
+					iceDefinition.setElementPoint("ice", 4);
+					iceDefinition.setElementPoint("water", 1);
+					element.element.put(ice, iceDefinition);
+				}
+				
+				{
+					ItemDamagePair snowblock = new ItemDamagePair(Material.SNOW_BLOCK, -1);
+					ElementDefinition snowBlockDefinition = new ElementDefinition();
+					snowBlockDefinition.setElementPoint("ice", 1);
+					snowBlockDefinition.setElementPoint("divine", 1);
+					element.element.put(snowblock, snowBlockDefinition);
+				}
+				
+				{
+					ItemDamagePair ghastTear = new ItemDamagePair(Material.GHAST_TEAR, -1);
+					ElementDefinition ghastTearDefinition = new ElementDefinition();
+					ghastTearDefinition.setElementPoint("divine", 4);
+					ghastTearDefinition.setElementPoint("evil", 1);
+					element.element.put(ghastTear, ghastTearDefinition);
+				}
+				
+				{
+					ItemDamagePair magmaCream = new ItemDamagePair(Material.MAGMA_CREAM, -1);
+					ElementDefinition magmaCreamDefinition = new ElementDefinition();
+					magmaCreamDefinition.setElementPoint("fire", 2);
+					magmaCreamDefinition.setElementPoint("evil", 1);
+					magmaCreamDefinition.setElementPoint("sticky", 1);
+					element.element.put(magmaCream, magmaCreamDefinition);
+				}
+				
+				{
+					ItemDamagePair slimeBall = new ItemDamagePair(Material.SLIME_BALL, -1);
+					ElementDefinition slimeBallDefinition = new ElementDefinition();
+					slimeBallDefinition.setElementPoint("sticky", 1);
+					element.element.put(slimeBall, slimeBallDefinition);
+				}
+				
+				{
+					ItemDamagePair string = new ItemDamagePair(Material.STRING, -1);
+					ElementDefinition stringDefinition = new ElementDefinition();
+					stringDefinition.setElementPoint("sticky", 1);
+					element.element.put(string, stringDefinition);
+				}
+				
+				{
+					ItemDamagePair web = new ItemDamagePair(Material.WEB, -1);
+					ElementDefinition webDefinition = new ElementDefinition();
+					webDefinition.setElementPoint("sticky", 6);
+					webDefinition.setElementPoint("evil", 1);
+					element.element.put(web, webDefinition);
+				}
+				
+				{
+					ItemDamagePair dragonEgg = new ItemDamagePair(Material.DRAGON_EGG, -1);
+					ElementDefinition dragonEggDefinition = new ElementDefinition();
+					dragonEggDefinition.setElementPoint("evil", 60);
+					dragonEggDefinition.setElementPoint("divine", 30);
+					element.element.put(dragonEgg, dragonEggDefinition);
+				}
 			}
 			element.save(elementSection);
 			
@@ -117,19 +237,40 @@ public class MagickElement extends JavaPlugin {
 			registry = new SpellRegistry(this);
 			ConfigurationSection spellConfig;
 			if(config.contains(SPELL_CONFIG))
-				registry.loadConfig(spellConfig = config.getConfigurationSection(SPELL_CONFIG));
+				registry.loadConfig(this, spellConfig = config.getConfigurationSection(SPELL_CONFIG));
 			else {
 				spellConfig = config.createSection(SPELL_CONFIG);
+				{
+					SpellEntry meteorite = new SpellEntry(this);
+					EntityRain meteoriteRain = new EntityRain();
+					meteorite.effect = meteoriteRain;
+					meteoriteRain.cluster = 4;
+					meteoriteRain.tier = 8;
+					meteoriteRain.delay = 20;
+					meteoriteRain.entity = EntityType.FIREBALL;
+					
+					meteorite.spellPrice = new ElementDefinition();
+					meteorite.spellPrice.setElementPoint("fire", 20);
+					meteorite.spellPrice.setElementPoint("divine", 10);
+					meteorite.spellPrice.setElementPoint("evil", 10);
+					
+					meteorite.handlerInfo = 30;
+					registry.spellRegistries.put("meteorite", meteorite);
+				}
 				
-				SpellEntry stub = new SpellEntry(this);
-				stub.effect = new SpellStub();
-				stub.spellPrice = new ElementDefinition();
-				stub.spellPrice.setElementPoint("fire", 1);
-				stub.handlerInfo = 1;
-				
-				registry.spellRegistries.put("stub", stub);
+				{
+					SpellEntry featherFall = new SpellEntry(this);
+					FeatherFall featherFalling = new FeatherFall();
+					featherFall.effect = featherFalling;
+					
+					featherFall.spellPrice = new ElementDefinition();
+					featherFall.spellPrice.setElementPoint("wind", 80);
+					
+					featherFall.handlerInfo = 20;
+					registry.spellRegistries.put("featherFall", featherFall);
+				}
 			}
-			registry.saveConfig(spellConfig);
+			registry.saveConfig(this, spellConfig);
 			
 			super.saveConfig();
 		}

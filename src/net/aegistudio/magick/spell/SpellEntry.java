@@ -25,7 +25,7 @@ public class SpellEntry {
 	public static final String ELEMENT_REQUIRED = "elementRequired";
 	
 	@SuppressWarnings("unchecked")
-	public void load(ConfigurationSection configuration) throws Exception {
+	public void load(MagickElement element, ConfigurationSection configuration) throws Exception {
 		// Load spell class.
 		String effectClazz = configuration.getString(EFFECT_CLASS);
 		if(effectClazz == null) return;
@@ -37,7 +37,7 @@ public class SpellEntry {
 			configuration.createSection(EFFECT_CONFIG);
 		ConfigurationSection effectConfig = configuration
 				.getConfigurationSection(EFFECT_CONFIG);
-		effect.load(effectConfig);
+		effect.load(element, effectConfig);
 		
 		// Load spell price config.
 		if(!configuration.contains(ELEMENT_REQUIRED))
@@ -50,7 +50,7 @@ public class SpellEntry {
 		magickElement.handler.loadSpell(this, configuration);
 	}
 	
-	public void save(ConfigurationSection configuration) throws Exception {
+	public void save(MagickElement element, ConfigurationSection configuration) throws Exception {
 		// Save spell class.
 		configuration.set(EFFECT_CLASS, effect.getClass().getName());
 		
@@ -58,7 +58,7 @@ public class SpellEntry {
 		if(!configuration.contains(EFFECT_CONFIG))
 			configuration.createSection(EFFECT_CONFIG);
 		ConfigurationSection effectConfig = configuration.getConfigurationSection(EFFECT_CONFIG);
-		effect.save(effectConfig);
+		effect.save(element, effectConfig);
 		
 		// Save spell price config.
 		if(!configuration.contains(ELEMENT_REQUIRED))
