@@ -134,6 +134,29 @@ public class ElementInitializer implements Initializer<ElementHolder> {
 			dragonEggDefinition.setElementPoint("divine", 30);
 			element.element.put(dragonEgg, dragonEggDefinition);
 		}
+		
+		{
+			ItemDamagePair yellowFlower = new ItemDamagePair(Material.YELLOW_FLOWER, -1);
+			ElementDefinition yellowFlowerDefinition = new ElementDefinition();
+			yellowFlowerDefinition.setElementPoint("terra", 1);
+			element.element.put(yellowFlower, yellowFlowerDefinition);
+			element.transform.put(yellowFlower, new ItemDamagePair(Material.DEAD_BUSH, -1));
+		}
+		
+		{
+			ItemDamagePair seeds = new ItemDamagePair(Material.SEEDS, -1);
+			ElementDefinition seedDefinition = new ElementDefinition();
+			seedDefinition.setElementPoint("terra", 1);
+			element.element.put(seeds, seedDefinition);
+		}
+		
+		{
+			ItemDamagePair flower = new ItemDamagePair(Material.RED_ROSE, -1);
+			ElementDefinition flowerDefinition = new ElementDefinition();
+			flowerDefinition.setElementPoint("terra", 1);
+			element.element.put(flower, flowerDefinition);
+			element.transform.put(flower, new ItemDamagePair(Material.DEAD_BUSH, -1));
+		}
 	}
 
 }

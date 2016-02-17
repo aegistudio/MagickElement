@@ -37,6 +37,6 @@ public class NearbyPlayerFilter implements EntityFilter {
 
 	@Override
 	public void saveConfig(MagickElement element, ConfigurationSection configuration) {
-		
+		this.element = element;
 	}
 }

@@ -34,8 +34,8 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 	public void load(MagickElement element, ConfigurationSection spellConfig) {
 		element.getServer().getPluginManager().registerEvents(this, element);	
 		
-		if(spellConfig.contains(EFFECT_BEGIN)) effectBegin = spellConfig.getString(EFFECT_BEGIN);
-		if(spellConfig.contains(EFFECT_END)) effectEnd = spellConfig.getString(EFFECT_END);
+		effectBegin = spellConfig.getString(EFFECT_BEGIN);
+		effectEnd = spellConfig.getString(EFFECT_END);
 		if(spellConfig.contains(DURATION)) duration = spellConfig.getLong(DURATION);
 		if(spellConfig.contains(VELOCITY)) velocity = spellConfig.getDouble(VELOCITY);
 		if(spellConfig.contains(EFFECT_BUFFNAME)) buffName = spellConfig.getString(EFFECT_BUFFNAME);
@@ -72,12 +72,12 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 	@Override
 	public void buff(MagickElement element, Entity entity) {
 		this.protecting.add(entity.getEntityId());
-		entity.sendMessage(effectBegin);
+		if(effectBegin != null) entity.sendMessage(effectBegin);
 	}
 
 	@Override
 	public void remove(MagickElement element, Entity entity) {
 		this.protecting.remove(entity.getEntityId());
-		entity.sendMessage(effectEnd);
+		if(effectEnd != null) entity.sendMessage(effectEnd);
 	}
 }
