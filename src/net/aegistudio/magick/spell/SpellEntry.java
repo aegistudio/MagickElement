@@ -6,9 +6,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Module;
 import net.aegistudio.magick.element.ElementDefinition;
 
-public class SpellEntry {
+public class SpellEntry implements Module {
 	public SpellEffect effect;
 	public ElementDefinition spellPrice = new ElementDefinition();
 	public Object handlerInfo;
@@ -44,7 +45,7 @@ public class SpellEntry {
 			configuration.createSection(ELEMENT_REQUIRED);
 		ConfigurationSection elementConfig = configuration
 				.getConfigurationSection(ELEMENT_REQUIRED);
-		spellPrice.load(elementConfig);
+		spellPrice.load(element, elementConfig);
 		
 		// Load spell handle config.
 		magickElement.handler.loadSpell(this, configuration);
@@ -65,7 +66,7 @@ public class SpellEntry {
 			configuration.createSection(ELEMENT_REQUIRED);
 		ConfigurationSection elementConfig = configuration
 				.getConfigurationSection(ELEMENT_REQUIRED);
-		spellPrice.save(elementConfig);
+		spellPrice.save(element, elementConfig);
 		
 		// Save spell handle config.
 		magickElement.handler.saveSpell(this, configuration);

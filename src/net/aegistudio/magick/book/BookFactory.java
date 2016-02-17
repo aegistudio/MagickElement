@@ -1,13 +1,11 @@
 package net.aegistudio.magick.book;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Listener;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Module;
 
-public interface BookFactory {
-	public void setConfig(ConfigurationSection config);
-	
+public interface BookFactory extends Module {
 	public MagickBook newMagickBook(MagickElement element);
 	
 	public Listener newBookListener(MagickElement element);

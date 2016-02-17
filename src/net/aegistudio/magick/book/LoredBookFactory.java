@@ -12,20 +12,6 @@ public class LoredBookFactory implements BookFactory {
 	
 	protected String bookLore = ChatColor.MAGIC + "Magick Book";
 	protected String tryToClone = "You've copied that magick book, but it doesn't seem to have any power. Guess what's wrong?";
-	
-	@Override
-	public void setConfig(ConfigurationSection config) {
-		// Written book that contains the identifier in first page considered magick book.
-
-		if(config.contains(BOOK_LORE)) 
-			bookLore = config.getString(BOOK_LORE);
-		config.set(BOOK_LORE, bookLore);
-		
-		// Written locales.
-		if(config.contains(TRY_TO_CLONE))
-			tryToClone = config.getString(TRY_TO_CLONE);
-		config.set(TRY_TO_CLONE, tryToClone);
-	}
 
 	@Override
 	public MagickBook newMagickBook(MagickElement element) {
@@ -35,5 +21,19 @@ public class LoredBookFactory implements BookFactory {
 	@Override
 	public Listener newBookListener(MagickElement element) {
 		return new MagickBookListener(element, tryToClone);
+	}
+
+	@Override
+	public void load(MagickElement magick, ConfigurationSection config) throws Exception {
+		if(config.contains(BOOK_LORE)) 
+			bookLore = config.getString(BOOK_LORE);
+		if(config.contains(TRY_TO_CLONE))
+			tryToClone = config.getString(TRY_TO_CLONE);
+	}
+
+	@Override
+	public void save(MagickElement element, ConfigurationSection config) throws Exception {
+		config.set(BOOK_LORE, bookLore);
+		config.set(TRY_TO_CLONE, tryToClone);
 	}
 }

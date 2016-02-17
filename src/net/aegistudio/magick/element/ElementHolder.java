@@ -5,7 +5,10 @@ import java.util.TreeMap;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-public class ElementHolder {
+import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Module;
+
+public class ElementHolder implements Module {
 	public final TreeMap<ItemDamagePair, ElementDefinition> element = new TreeMap<ItemDamagePair, ElementDefinition>();
 	public final TreeMap<ItemDamagePair, ItemDamagePair> transform = new TreeMap<ItemDamagePair, ItemDamagePair>();
 	
@@ -31,7 +34,7 @@ public class ElementHolder {
 	public static final String ELEMENT_ENTRY = "factor";
 	public static final String TARGET_ENTRY = "target";
 	
-	public void load(ConfigurationSection parent) {
+	public void load(MagickElement magick, ConfigurationSection parent) {
 		for(String materialKey : parent.getKeys(false)) {
 			ItemDamagePair source = ItemDamagePair.parse(materialKey);
 			if(source == null) continue;
@@ -40,7 +43,7 @@ public class ElementHolder {
 			ElementDefinition itemElement = new ElementDefinition();
 			if(section.contains(ELEMENT_ENTRY)) {
 				ConfigurationSection element = section.getConfigurationSection(ELEMENT_ENTRY);
-				itemElement.load(element);
+				itemElement.load(magick, element);
 			}
 			element.put(source, itemElement);
 			
@@ -50,7 +53,7 @@ public class ElementHolder {
 		}
 	}
 	
-	public void save(ConfigurationSection parent) {
+	public void save(MagickElement magick, ConfigurationSection parent) {
 		for(Entry<ItemDamagePair, ElementDefinition> sourcePair : element.entrySet()) {
 			String itemEntry = sourcePair.getKey().toString();
 			ConfigurationSection section;
@@ -62,7 +65,7 @@ public class ElementHolder {
 			if(section.contains(ELEMENT_ENTRY))
 				itemElement = section.getConfigurationSection(ELEMENT_ENTRY);
 			else itemElement = section.createSection(ELEMENT_ENTRY);
-			sourcePair.getValue().save(itemElement);
+			sourcePair.getValue().save(magick, itemElement);
 			
 			ItemDamagePair target = transform.get(sourcePair.getKey());
 			if(target != null) section.set(TARGET_ENTRY, target.toString());

@@ -2,7 +2,6 @@ package net.aegistudio.magick.cauldron;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Listener;
-
 import net.aegistudio.magick.MagickElement;
 
 public class MagickCauldronFactory implements CauldronFactory {
@@ -25,33 +24,6 @@ public class MagickCauldronFactory implements CauldronFactory {
 	private String cauldronTitle = "Magick Cauldron";
 	
 	@Override
-	public void loadConfig(ConfigurationSection config) {
-		if(config.contains(CAPACITY))
-			cauldronCapacity = config.getInt(CAPACITY);
-		config.set(CAPACITY, cauldronCapacity);
-		
-		if(config.contains(BEGIN_FORGE))
-			beginForging = config.getString(BEGIN_FORGE);
-		config.set(BEGIN_FORGE, beginForging);
-		
-		if(config.contains(STILL_FORGE))
-			stillForging = config.getString(STILL_FORGE);
-		config.set(STILL_FORGE, stillForging);
-		
-		if(config.contains(TICK_FORGE))
-			tickForge = config.getInt(TICK_FORGE);
-		config.set(TICK_FORGE, tickForge);
-
-		if(config.contains(TICK_INTERVAL))
-			tickInterval = config.getInt(TICK_INTERVAL);
-		config.set(TICK_INTERVAL, tickInterval);
-		
-		if(config.contains(CAULDRON_TITLE))
-			cauldronTitle = config.getString(CAULDRON_TITLE);
-		config.set(CAULDRON_TITLE, cauldronTitle);
-	}
-
-	@Override
 	public Listener newCauldronListener(MagickElement element) {
 		return new MagickCauldronListener(element, element.cauldron, 
 				beginForging, stillForging, tickInterval, tickForge);
@@ -62,4 +34,30 @@ public class MagickCauldronFactory implements CauldronFactory {
 		return new CauldronInventoryHandler(element, cauldronCapacity, cauldronTitle);
 	}
 
+	@Override
+	public void load(MagickElement magick, ConfigurationSection config) throws Exception {
+		if(config.contains(CAPACITY))
+			cauldronCapacity = config.getInt(CAPACITY);
+		if(config.contains(BEGIN_FORGE))
+			beginForging = config.getString(BEGIN_FORGE);
+		if(config.contains(STILL_FORGE))
+			stillForging = config.getString(STILL_FORGE);
+		if(config.contains(TICK_FORGE))
+			tickForge = config.getInt(TICK_FORGE);
+		if(config.contains(TICK_INTERVAL))
+			tickInterval = config.getInt(TICK_INTERVAL);
+		if(config.contains(CAULDRON_TITLE))
+			cauldronTitle = config.getString(CAULDRON_TITLE);
+		
+	}
+
+	@Override
+	public void save(MagickElement element, ConfigurationSection config) throws Exception {
+		config.set(CAPACITY, cauldronCapacity);
+		config.set(BEGIN_FORGE, beginForging);
+		config.set(STILL_FORGE, stillForging);
+		config.set(TICK_FORGE, tickForge);
+		config.set(TICK_INTERVAL, tickInterval);
+		config.set(CAULDRON_TITLE, cauldronTitle);
+	}
 }

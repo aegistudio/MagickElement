@@ -24,7 +24,6 @@ public class FeatherFall implements SpellEffect, Listener {
 			else protecting.put(player.getName(), countValue);
 		}
 		else protecting.put(player.getName(), count);
-		
 	}
 	
 	@Override
@@ -64,7 +63,6 @@ public class FeatherFall implements SpellEffect, Listener {
 		spellConfig.set(DURATION, duration);
 		spellConfig.set(VELOCITY, velocity);
 	}
-	
 
 	@EventHandler
 	public void handleFallSpeed(PlayerMoveEvent event) {

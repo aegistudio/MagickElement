@@ -6,6 +6,9 @@ import java.util.TreeMap;
 
 import org.bukkit.configuration.ConfigurationSection;
 
+import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Module;
+
 /**
  * Element is defined as magic ingredients that would turn
  * into magic power when brewed in cauldron.
@@ -13,7 +16,7 @@ import org.bukkit.configuration.ConfigurationSection;
  * @author aegistudio
  */
 
-public class ElementDefinition {
+public class ElementDefinition implements Module {
 	public final TreeMap<String, Integer> elementPoint = new TreeMap<String, Integer>();
 	public int getElementValue(String elementName) {
 		Integer elementValue = this.elementPoint.get(elementName.toLowerCase());
@@ -48,13 +51,13 @@ public class ElementDefinition {
 		return false;
 	}
 	
-	public void load(ConfigurationSection section) {
+	public void load(MagickElement element, ConfigurationSection section) {
 		Set<String> keySet = section.getKeys(false);
 		for(String key : keySet) 
 			elementPoint.put(key.toLowerCase(), section.getInt(key));
 	}
 	
-	public void save(ConfigurationSection section) {
+	public void save(MagickElement element, ConfigurationSection section) {
 		for(Entry<String, Integer> entry : elementPoint.entrySet()) 
 			section.set(entry.getKey().toLowerCase(), entry.getValue().intValue());
 	}
