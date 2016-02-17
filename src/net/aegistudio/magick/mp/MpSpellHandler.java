@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.bukkit.Effect;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.particle.PlayerParticle;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
 
@@ -43,6 +45,7 @@ public class MpSpellHandler implements SpellHandler {
 						.makeMagick(element, player, player.getLocation(), magickBook, spell);
 				
 				new MpCooldown(this, player);
+				new PlayerParticle(Effect.HAPPY_VILLAGER, spellPoint).show(player);
 			}
 			
 			String title = ((BookMeta)(magickBook.getItemMeta())).getTitle();

@@ -1,12 +1,10 @@
 package net.aegistudio.magick.book;
 
-import org.bukkit.Effect;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
-
 import net.aegistudio.magick.MagickElement;
 
 public class MagickBookListener implements Listener {
@@ -22,11 +20,6 @@ public class MagickBookListener implements Listener {
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent event) {
 		if(!this.element.book.isMagickBook(event.getItem())) return;
-		
-		// Magic power return to terra.
-		for(int i = 0; i < 100; i ++)
-			event.getPlayer().playEffect(event.getPlayer().getLocation(), Effect.FLYING_GLYPH, null);
-		
 		this.element.handler.handleSpell(event.getPlayer(), event.getItem());
 		event.setCancelled(true);
 	}

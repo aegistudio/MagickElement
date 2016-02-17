@@ -15,6 +15,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.inventory.BlockCoordinate;
+import net.aegistudio.magick.particle.BlockParticle;
 
 public class MagickCauldronListener implements Listener {
 	private final TreeSet<BlockCoordinate> activatedCauldrons = new TreeSet<BlockCoordinate>();
@@ -57,6 +58,8 @@ public class MagickCauldronListener implements Listener {
 		this.inventory.breakBlock(event);
 	}
 	
+	private final BlockParticle blockParticle = new BlockParticle(Effect.HAPPY_VILLAGER, 6);
+	
 	@EventHandler
 	public void onActivateCauldron(BlockIgniteEvent event) {
 		Location location = event.getBlock().getLocation().add(0, 1, 0);
@@ -82,30 +85,7 @@ public class MagickCauldronListener implements Listener {
 				if(block.getWorld().getBlockAt(block.getLocation()).getType() != Material.CAULDRON) return;
 				
 				activatedCauldrons.remove(new BlockCoordinate(block.getLocation()));
-				for(int i = 0; i < 6; i ++) {
-					
-					// TOP
-					block.getWorld().playEffect(block.getLocation()
-							.add(1.2 * Math.random(), 1.2, 1.2 * Math.random()),
-							Effect.HAPPY_VILLAGER, null);
-					
-					// X
-					block.getWorld().playEffect(block.getLocation()
-							.add(1.2, Math.random(), Math.random()),
-							Effect.HAPPY_VILLAGER, null);
-					block.getWorld().playEffect(block.getLocation()
-							.add(-.2, Math.random(), Math.random()),
-							Effect.HAPPY_VILLAGER, null);
-					
-					// Y
-					block.getWorld().playEffect(block.getLocation()
-							.add(Math.random(), Math.random(), 1.2),
-							Effect.HAPPY_VILLAGER, null);
-					block.getWorld().playEffect(block.getLocation()
-							.add(Math.random(), Math.random(), -.2),
-							Effect.HAPPY_VILLAGER, null);
-				}
-				
+				blockParticle.show(block);
 				inventory.brewBlock(block);
 			}
 		};

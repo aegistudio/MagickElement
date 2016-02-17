@@ -1,44 +1,51 @@
 package net.aegistudio.magick.effect;
 
-import java.util.TreeSet;
+import java.util.TreeMap;
 
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerMoveEvent;
+
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.spell.SpellEffect;
 
 public class FeatherFall implements SpellEffect, Listener {
-	private final TreeSet<String> protecting = new TreeSet<String>();
+	private final TreeMap<String, Integer> protecting = new TreeMap<String, Integer>();
+	
+	public void increment(Player player, int count) {
+		Integer countValue = protecting.get(player.getName());
+		if(countValue != null) {
+			countValue += count;
+			if(countValue == 0) protecting.remove(player.getName());
+			else protecting.put(player.getName(), countValue);
+		}
+		else protecting.put(player.getName(), count);
+		
+	}
 	
 	@Override
 	public void spell(MagickElement element, Player sender, Location location, String[] params) {
-		if(!protecting.contains(sender.getName())) {
-			protecting.add(sender.getName());
-			sender.sendMessage(effectBegin);
-			element.getServer().getScheduler().runTaskLater(element, new Runnable() {
-				@Override
-				public void run() {
-					if(protecting.contains(sender.getName())) {
-						protecting.remove(sender.getName());
-						sender.sendMessage(effectEnd);
-					}
-				}
-			}, duration);
-		}
+		increment(sender, 1);
+		sender.sendMessage(effectBegin);
+		element.getServer().getScheduler().runTaskLater(element, new Runnable() {
+			@Override
+			public void run() {
+				increment(sender, -1);
+				if(!protecting.containsKey(sender.getName())) 
+					sender.sendMessage(effectEnd);
+			}
+		}, duration);
 	}
 
-	public static final String EFFECT_BEGIN = "effectBegin"; String effectBegin = "You feel you were as light as a swallow...";
-	public static final String EFFECT_END = "effectEnd"; String effectEnd = "You could feel the pull of gravity again...";
+	public static final String EFFECT_BEGIN = "effectBegin"; public String effectBegin = "You feel you were as light as a swallow...";
+	public static final String EFFECT_END = "effectEnd"; public String effectEnd = "You could feel the pull of gravity again...";
 	
-	public static final String DURATION = "duration"; long duration = 2000;
-	public static final String VELOCITY = "velocity"; double velocity = 0.2;
+	public static final String DURATION = "duration"; public long duration = 200;
+	public static final String VELOCITY = "velocity"; public double velocity = 0.2;
 	
 	@Override
 	public void load(MagickElement element, ConfigurationSection spellConfig) {
@@ -58,20 +65,16 @@ public class FeatherFall implements SpellEffect, Listener {
 		spellConfig.set(VELOCITY, velocity);
 	}
 	
+
 	@EventHandler
 	public void handleFallSpeed(PlayerMoveEvent event) {
-		if(!protecting.contains(event.getPlayer().getName())) return;
-		if(event.getPlayer().getVelocity().getY() < -velocity)
+		if(!protecting.containsKey(event.getPlayer().getName())) return;
+		if(event.getPlayer().getVelocity().getY() < -velocity) {
 			event.getPlayer().setVelocity(event.getPlayer().getVelocity().setY(-velocity));
-	}
-	
-	@EventHandler
-	public void handleFallDamage(EntityDamageEvent event) {
-		if(event.getEntityType() != EntityType.PLAYER) return;
-		if(event.getCause() != DamageCause.FALL) return;
-		if(protecting.remove(((Player)event.getEntity()).getName())) {
-			event.getEntity().sendMessage(effectEnd);
-			event.setCancelled(true);
+			event.getPlayer().getLocation().getWorld()
+				.playEffect(event.getPlayer().getLocation(),
+						Effect.FLYING_GLYPH, null);
+			event.getPlayer().setFallDistance(0);
 		}
 	}
 }
