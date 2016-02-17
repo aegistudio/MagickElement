@@ -11,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.aegistudio.magick.book.BookFactory;
 import net.aegistudio.magick.book.MagickBook;
 import net.aegistudio.magick.book.PagingBookFactory;
+import net.aegistudio.magick.buff.BuffManager;
+import net.aegistudio.magick.buff.MutedBuffManager;
 import net.aegistudio.magick.cauldron.CauldronInventoryHandler;
 import net.aegistudio.magick.cauldron.CauldronFactory;
 import net.aegistudio.magick.cauldron.MagickCauldronFactory;
@@ -40,6 +42,10 @@ public class MagickElement extends JavaPlugin {
 	public SpellRegistry registry;
 	
 	public TreeMap<String, CommandHandle> commands;
+	
+	public static final String BUFFMANAGER_CLASS = "buffManager";
+	public static final String BUFFMANAGER_CONFIG = "buffConfig";
+	public BuffManager buff;
 	
 	public void onEnable() {
 		try {
@@ -84,6 +90,11 @@ public class MagickElement extends JavaPlugin {
 			registry = new SpellRegistry(this);
 			this.loadConfig(registry, config, SPELL_CONFIG, new RegistryInitializer());
 			getLogger().info("Successfully loaded " + registry.spellRegistries.size() + " spells.");
+			
+			// Buff
+			buff = this.loadInstance(BuffManager.class, config, BUFFMANAGER_CLASS, 
+					MutedBuffManager.class, BUFFMANAGER_CONFIG, null);
+			getLogger().info("Successfully loaded buff manager.");
 			
 			super.saveConfig();
 		}

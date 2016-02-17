@@ -4,8 +4,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Module;
 
-public interface BuffManager {
+public interface BuffManager extends Module {
 	public void buff(Entity entity, Buff buff, long duration);
 	
 	public void load(MagickElement element, ConfigurationSection section);

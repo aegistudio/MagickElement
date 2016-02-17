@@ -23,4 +23,8 @@ public class BuffRecord {
 	public boolean hasBuff(Buff buff) {
 		return buffRecord.containsKey(buff);
 	}
+	
+	public boolean hasBuff() {
+		return buffRecord.isEmpty();
+	}
 }
