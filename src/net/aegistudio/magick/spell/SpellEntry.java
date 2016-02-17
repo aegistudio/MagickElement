@@ -13,6 +13,7 @@ public class SpellEntry implements Module {
 	public SpellEffect effect;
 	public ElementDefinition spellPrice = new ElementDefinition();
 	public Object handlerInfo;
+	public String description;
 	
 	private final MagickElement magickElement;
 	
@@ -20,6 +21,7 @@ public class SpellEntry implements Module {
 		this.magickElement = magickElement;
 	}
 	
+	public static final String SPELL_DESCRIPTION = "description";
 	public static final String EFFECT_CLASS = "effectClass";
 	public static final String EFFECT_CONFIG = "effectConfig";
 	
@@ -47,6 +49,10 @@ public class SpellEntry implements Module {
 				.getConfigurationSection(ELEMENT_REQUIRED);
 		spellPrice.load(element, elementConfig);
 		
+		// Load description.
+		if(configuration.contains(SPELL_DESCRIPTION))
+			description = configuration.getString(SPELL_DESCRIPTION);
+		
 		// Load spell handle config.
 		magickElement.handler.loadSpell(this, configuration);
 	}
@@ -67,6 +73,9 @@ public class SpellEntry implements Module {
 		ConfigurationSection elementConfig = configuration
 				.getConfigurationSection(ELEMENT_REQUIRED);
 		spellPrice.save(element, elementConfig);
+		
+		// Save description.
+		configuration.set(SPELL_DESCRIPTION, description);
 		
 		// Save spell handle config.
 		magickElement.handler.saveSpell(this, configuration);

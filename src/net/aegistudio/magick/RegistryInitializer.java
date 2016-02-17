@@ -15,8 +15,9 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			SpellEntry meteorite = new SpellEntry(element);
 			EntityRain meteoriteRain = new EntityRain();
 			meteorite.effect = meteoriteRain;
-			meteoriteRain.cluster = 4;
-			meteoriteRain.tier = 8;
+			meteorite.description = "Cause meteorite from outside the world to drop.";
+			meteoriteRain.cluster = 1;
+			meteoriteRain.tier = 5;
 			meteoriteRain.delay = 20;
 			meteoriteRain.entity = EntityType.FIREBALL;
 			
@@ -33,6 +34,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			SpellEntry featherFall = new SpellEntry(element);
 			FeatherFall featherFalling = new FeatherFall();
 			featherFall.effect = featherFalling;
+			featherFall.description = "Slow down your dropping rate to a feather.";
 			
 			featherFall.spellPrice = new ElementDefinition();
 			featherFall.spellPrice.setElementPoint("wind", 80);

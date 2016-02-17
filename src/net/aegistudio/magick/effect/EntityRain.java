@@ -16,7 +16,7 @@ public class EntityRain implements SpellEffect {
 	public static final String ENTITY_TYPE = "entity"; public EntityType entity = EntityType.ARROW;
 	public static final String ON_FIRE = "onFire"; public boolean onFire = false;
 	public static final String EXPLOSION_POWER = "explosionPower"; public double explosionPower = 3.0;
-	public static final String HEIGHT = "height"; public int height = 128;
+	public static final String HEIGHT = "height"; public int height = 64;
 	
 	@Override
 	public void spell(MagickElement element, Player sender, Location location, String[] params) {

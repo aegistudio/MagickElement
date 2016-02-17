@@ -100,15 +100,15 @@ public class CauldronInventoryHandler {
 					if(requiredItem[i] == 0) continue;
 					else {
 						ItemStack target = content.getItem(i);
-						if(requiredItem[i] == content.getItem(i).getAmount()) 
-							content.remove(target);
+						if(requiredItem[i] == target.getAmount()) 
+							content.removeItem(target);
 						else 
 							target.setAmount(target.getAmount() - requiredItem[i]);
 						
 						ItemDamagePair transformed = element.element.transform(target);
 						if(transformed != null) {
 							if(transformed.damage == -1) 
-								transformedList.add(new ItemStack(transformed.material, requiredItem[i]));
+								transformedList.add(new ItemStack(transformed.material, requiredItem[i], target.getDurability()));
 							else
 								transformedList.add(new ItemStack(transformed.material, requiredItem[i], (short) transformed.damage));
 						}

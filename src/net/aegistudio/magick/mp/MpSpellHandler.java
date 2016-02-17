@@ -14,6 +14,7 @@ import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.particle.PlayerParticle;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
+import net.md_5.bungee.api.ChatColor;
 
 /**
  * Consume mana power (MP) to use spells. MP is calculated
@@ -128,53 +129,64 @@ public class MpSpellHandler implements SpellHandler {
 	String cooldownMessage = "You can't use your magick cause you're cooling down.";
 	
 	public static final String MP_INSUFFICIENT = "insufficient";
-	String insufficient = "You dont have enough mana power to use $magick: $actual(+$required)/$total";
+	String insufficient = "You dont have enough mana power to use " + ChatColor.AQUA + "$magick" + ChatColor.RESET
+			+ ": " + ChatColor.BLUE + "$actual" + ChatColor.RESET + "(" + ChatColor.RED + "+$required"
+			+ ChatColor.RESET + ")/" + ChatColor.BLUE + "$total" + ChatColor.RESET;
 	
 	public static final String MP_SUFFICIENT = "sufficient";
-	String sufficient = "$magick used successfully, current status: $actual(-$required)/$total";	
+	String sufficient = "The " + ChatColor.AQUA + "$magick" + ChatColor.RESET + " used successfully, current status: " 
+			+ ChatColor.BLUE + "$actual" + ChatColor.RESET + "(" 
+			+ ChatColor.GREEN + "-$required" + ChatColor.RESET + ")/" + ChatColor.BLUE + "$total" + ChatColor.RESET;	
+	
+	public static final String MP_CONSUME = "mpConsume";
+	String mpConsume = ChatColor.BOLD + "Consume" + ChatColor.RESET + " $required " + ChatColor.BLUE + "mp" + ChatColor.RESET + ".";
 	
 	@Override
-	public void loadConfig(MagickElement element, ConfigurationSection configuration) {
+	public void load(MagickElement element, ConfigurationSection configuration) {
 		this.element = element;
 		
 		if(configuration.contains(RECOVERY_COUNT)) 
 			recoveryCount = configuration.getInt(RECOVERY_COUNT);
-		configuration.set(RECOVERY_COUNT, recoveryCount);
-		
 		if(configuration.contains(RECOVERY_INTERVAL))
 			recoveryInterval = configuration.getInt(RECOVERY_INTERVAL);
-		configuration.set(RECOVERY_INTERVAL, recoveryInterval);
-		
 		if(configuration.contains(ONLINE_ONLY))
 			onlineOnly = configuration.getBoolean(ONLINE_ONLY);
-		configuration.set(ONLINE_ONLY, onlineOnly);
-		
 		if(configuration.contains(MP_BASE))
 			base = configuration.getInt(MP_BASE);
-		configuration.set(MP_BASE, base);
-		
 		if(configuration.contains(MP_MULTIPLIER))
 			multiplier = configuration.getInt(MP_MULTIPLIER);
-		configuration.set(MP_MULTIPLIER, multiplier);
+		if(configuration.contains(MP_COOLDOWN))
+			cooldown = configuration.getInt(MP_COOLDOWN);
+		if(configuration.contains(MP_COOLDOWN_MESSAGE))
+			cooldownMessage = configuration.getString(MP_COOLDOWN_MESSAGE);
+		if(configuration.contains(MP_INSUFFICIENT))
+			insufficient = configuration.getString(MP_INSUFFICIENT);
+		if(configuration.contains(MP_SUFFICIENT))
+			sufficient = configuration.getString(MP_SUFFICIENT);
+		if(configuration.contains(MP_CONSUME))
+			mpConsume = configuration.getString(MP_CONSUME);
 		
 		element.getServer().getScheduler().scheduleSyncRepeatingTask(element, 
 				new MpRecovery(element, this)
 				, recoveryInterval, recoveryInterval);
-		
-		if(configuration.contains(MP_COOLDOWN))
-			cooldown = configuration.getInt(MP_COOLDOWN);
+	}
+
+	@Override
+	public void save(MagickElement element, ConfigurationSection configuration) throws Exception {
+		configuration.set(RECOVERY_COUNT, recoveryCount);
+		configuration.set(RECOVERY_INTERVAL, recoveryInterval);
+		configuration.set(ONLINE_ONLY, onlineOnly);
+		configuration.set(MP_BASE, base);
+		configuration.set(MP_MULTIPLIER, multiplier);
 		configuration.set(MP_COOLDOWN, cooldown);
-		
-		if(configuration.contains(MP_COOLDOWN_MESSAGE))
-			cooldownMessage = configuration.getString(MP_COOLDOWN_MESSAGE);
 		configuration.set(MP_COOLDOWN_MESSAGE, cooldownMessage);
-		
-		if(configuration.contains(MP_INSUFFICIENT))
-			insufficient = configuration.getString(MP_INSUFFICIENT);
 		configuration.set(MP_INSUFFICIENT, insufficient);
-		
-		if(configuration.contains(MP_SUFFICIENT))
-			sufficient = configuration.getString(MP_SUFFICIENT);
 		configuration.set(MP_SUFFICIENT, sufficient);
+		configuration.set(MP_CONSUME, mpConsume);
+	}
+
+	@Override
+	public String infoSpell(SpellEntry entry) {
+		return mpConsume.replace("$required", Integer.toString((Integer)entry.handlerInfo));
 	}
 }

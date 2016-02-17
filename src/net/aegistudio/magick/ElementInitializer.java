@@ -53,7 +53,7 @@ public class ElementInitializer implements Initializer<ElementHolder> {
 			ElementDefinition waterBucketDefinition = new ElementDefinition();
 			waterBucketDefinition.setElementPoint("water", 2);
 			element.element.put(waterBucket, waterBucketDefinition);					
-			element.transform.put(waterBucket, new ItemDamagePair(Material.BUCKET, -1));
+			element.transform.put(waterBucket, new ItemDamagePair(Material.BUCKET, 0));
 		}
 		
 		{
@@ -61,7 +61,7 @@ public class ElementInitializer implements Initializer<ElementHolder> {
 			ElementDefinition lavaBucketDefinition = new ElementDefinition();
 			lavaBucketDefinition.setElementPoint("fire", 2);
 			element.element.put(lavaBucket, lavaBucketDefinition);					
-			element.transform.put(lavaBucket, new ItemDamagePair(Material.BUCKET, -1));
+			element.transform.put(lavaBucket, new ItemDamagePair(Material.BUCKET, 0));
 		}
 		
 		{
@@ -69,7 +69,7 @@ public class ElementInitializer implements Initializer<ElementHolder> {
 			ElementDefinition waterPotionDefinition = new ElementDefinition();
 			waterPotionDefinition.setElementPoint("water", 1);
 			element.element.put(waterPotion, waterPotionDefinition);
-			element.transform.put(waterPotion, new ItemDamagePair(Material.GLASS_BOTTLE, -1));
+			element.transform.put(waterPotion, new ItemDamagePair(Material.GLASS_BOTTLE, 0));
 		}
 		
 		{

@@ -1,3 +1,14 @@
 name: MagickElement
 main: net.aegistudio.magick.MagickElement
 version: 0.01-beta
+author: aegistudio
+commands:
+  magick:
+    description: Command service provided by magick element.
+    usage: /magick [subcommand] [parameters]
+    permission: magick.command
+    permission-message: You don't have permission to do that!
+permissions:
+  magick.command:
+    description: Grants player to issue magick element command.
+    default: true

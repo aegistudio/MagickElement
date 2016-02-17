@@ -1,5 +1,9 @@
 package net.aegistudio.magick;
 
+import java.util.TreeMap;
+
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -14,6 +18,7 @@ import net.aegistudio.magick.element.ElementHolder;
 import net.aegistudio.magick.mp.MpSpellHandler;
 import net.aegistudio.magick.spell.SpellHandler;
 import net.aegistudio.magick.spell.SpellRegistry;
+import net.md_5.bungee.api.ChatColor;
 
 public class MagickElement extends JavaPlugin {
 	public static final String BOOK_FACTORY = "bookFactory";
@@ -33,12 +38,14 @@ public class MagickElement extends JavaPlugin {
 	
 	public static final String SPELL_CONFIG = "spellConfig";
 	public SpellRegistry registry;
-
-	@SuppressWarnings("unchecked")
+	
+	public TreeMap<String, CommandHandle> commands;
+	
 	public void onEnable() {
 		try {
 			this.reloadConfig();
 			FileConfiguration config = super.getConfig();
+			commands = new TreeMap<String, CommandHandle>();
 
 			// Book
 			BookFactory bookListenerFactory = 
@@ -70,13 +77,8 @@ public class MagickElement extends JavaPlugin {
 					+ " and " + element.transform.size() + " transforms.");
 			
 			// Handler
-			String handlerClazz = config.getString(HANDLER_CLASS);
-			if(handlerClazz == null) config.set(HANDLER_CLASS, 
-					handlerClazz = MpSpellHandler.class.getName());
-			handler = ((Class<? extends SpellHandler>)Class.forName(handlerClazz)).newInstance();
-			if(!config.contains(HANDLER_CONFIG))
-				config.createSection(HANDLER_CONFIG);
-			handler.loadConfig(this, config.getConfigurationSection(HANDLER_CONFIG));
+			handler = this.loadInstance(SpellHandler.class, config, HANDLER_CLASS, MpSpellHandler.class, HANDLER_CONFIG, null);
+			getLogger().info("Sucessfully installed spell handler.");
 			
 			// Spell
 			registry = new SpellRegistry(this);
@@ -132,5 +134,33 @@ public class MagickElement extends JavaPlugin {
 			getLogger().severe("Magick Element failed to save because of exception.");
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] arguments) {
+		if(command.getName().equalsIgnoreCase("magick")) {
+			sender.sendMessage("");	// A new line
+			if(arguments.length == 0) {
+				sender.sendMessage(ChatColor.BOLD + "Usage" + ChatColor.RESET + ": /" + label + " [subcommand] [parameters]");
+				sender.sendMessage(ChatColor.BOLD + "Listing " + ChatColor.RESET + ChatColor.YELLOW + "subcommands" + ChatColor.RESET + ": ");
+				for(String commandName : commands.keySet()) {
+					CommandHandle service = commands.get(commandName);
+					if(service.visible(sender))
+						sender.sendMessage("  " + ChatColor.YELLOW + commandName + ChatColor.RESET + ": " + 
+								service.description());
+				}
+				sender.sendMessage("See you on " + ChatColor.BOLD + "GitHub" + ChatColor.RESET + ": " + ChatColor.RED 
+						+ "http://github.com/aegistudio/MagickElement");
+			}
+			else {
+				CommandHandle commandTarget = commands.get(arguments[0]);
+				if(commandTarget == null) return false;
+				if(!commandTarget.visible(sender)) return false;
+				String[] innerArguments = new String[arguments.length - 1];
+				System.arraycopy(arguments, 1, innerArguments, 0, arguments.length - 1);
+				commandTarget.handle(this, sender, innerArguments);
+			}
+			return true;
+		}
+		else return false;
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.bukkit.configuration.ConfigurationSection;
+
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Module;
 
@@ -26,6 +27,7 @@ public class SpellRegistry implements Module {
 			spellEntry.load(element, spell);
 			spellRegistries.put(spellKey, spellEntry);
 		}
+		element.commands.put("spell", new SpellCommand());
 	}
 	
 	public void save(MagickElement element, ConfigurationSection spellSection) throws Exception {
@@ -35,5 +37,6 @@ public class SpellRegistry implements Module {
 			ConfigurationSection spell = spellSection.getConfigurationSection(spellKey);
 			spellEntry.save(element, spell);
 		}
+		element.commands.put("spell", new SpellCommand());
 	}
 }
