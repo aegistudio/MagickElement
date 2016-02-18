@@ -48,4 +48,9 @@ public class EntityRain implements SpellEffect {
 		spellConfig.set(EXPLOSION_POWER, explosionPower);
 		spellConfig.set(HEIGHT, height);
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }

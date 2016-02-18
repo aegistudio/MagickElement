@@ -6,6 +6,7 @@ import org.bukkit.potion.PotionEffectType;
 import net.aegistudio.magick.effect.EntityRain;
 import net.aegistudio.magick.effect.FeatherFall;
 import net.aegistudio.magick.effect.PotionResistence;
+import net.aegistudio.magick.effect.VampireHand;
 import net.aegistudio.magick.element.ElementDefinition;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellRegistry;
@@ -98,6 +99,23 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			
 			determined.handlerInfo = 15;
 			registry.spellRegistries.put("determined", determined);
+		}
+		
+		{
+			SpellEntry vampire = new SpellEntry(element);
+			VampireHand vampireSpell = new VampireHand();
+			vampire.effect = vampireSpell;
+			
+			vampireSpell.duration = 200;
+			
+			vampire.description = "If you want to taste the blood of others, then suck.";
+			vampire.spellPrice = new ElementDefinition();
+			vampire.spellPrice.setElementPoint("evil", 40);
+			vampire.spellPrice.setElementPoint("ice", 10);
+			vampire.spellPrice.setElementPoint("sticky", 10);
+			
+			vampire.handlerInfo = 20;
+			registry.spellRegistries.put("vampire", vampire);
 		}
 	}
 }

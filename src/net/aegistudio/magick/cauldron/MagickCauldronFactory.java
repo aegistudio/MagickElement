@@ -60,4 +60,9 @@ public class MagickCauldronFactory implements CauldronFactory {
 		config.set(TICK_INTERVAL, tickInterval);
 		config.set(CAULDRON_TITLE, cauldronTitle);
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }

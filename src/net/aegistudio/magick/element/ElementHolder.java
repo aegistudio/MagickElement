@@ -51,8 +51,6 @@ public class ElementHolder implements Module {
 			ItemDamagePair target = ItemDamagePair.parse(section.getString(TARGET_ENTRY));
 			transform.put(source, target);
 		}
-		magick.commands.put("element", new ElementCommand());
-		magick.commands.put("inspect", new InspectCommand());
 	}
 	
 	public void save(MagickElement magick, ConfigurationSection parent) {
@@ -72,7 +70,12 @@ public class ElementHolder implements Module {
 			ItemDamagePair target = transform.get(sourcePair.getKey());
 			if(target != null) section.set(TARGET_ENTRY, target.toString());
 		}
-		magick.commands.put("element", new ElementCommand());
-		magick.commands.put("inspect", new InspectCommand());
+
+	}
+
+	@Override
+	public void after(MagickElement element) {
+		element.commands.put("element", new ElementCommand());
+		element.commands.put("inspect", new InspectCommand());
 	}
 }

@@ -25,11 +25,16 @@ public class AngelWing implements SpellEffect, Listener {
 	
 	@Override
 	public void load(MagickElement element, ConfigurationSection spellConfig) {
-		element.getServer().getPluginManager().registerEvents(this, element);
+		
 	}
 
 	@Override
 	public void save(MagickElement element, ConfigurationSection spellConfig) {
 		
+	}
+
+	@Override
+	public void after(MagickElement element) {
+		element.getServer().getPluginManager().registerEvents(this, element);
 	}
 }

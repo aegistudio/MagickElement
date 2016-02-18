@@ -61,4 +61,9 @@ public class ElementDefinition implements Module {
 		for(Entry<String, Integer> entry : elementPoint.entrySet()) 
 			section.set(entry.getKey().toLowerCase(), entry.getValue().intValue());
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }

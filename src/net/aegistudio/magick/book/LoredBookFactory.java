@@ -36,4 +36,9 @@ public class LoredBookFactory implements BookFactory {
 		config.set(BOOK_LORE, bookLore);
 		config.set(TRY_TO_CLONE, tryToClone);
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }

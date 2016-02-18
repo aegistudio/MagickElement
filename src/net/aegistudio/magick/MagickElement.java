@@ -129,8 +129,9 @@ public class MagickElement extends JavaPlugin {
 			config = parent.createSection(configEntry);
 			if(abscence != null)
 				abscence.initial(this, instance);
+			instance.save(this, config);
 		}
-		instance.save(this, config);
+		instance.after(this);
 		return instance;
 	}
 	

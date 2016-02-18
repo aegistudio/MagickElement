@@ -80,9 +80,6 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 
 	@Override
 	public void load(MagickElement element, ConfigurationSection spellConfig) {
-		this.element = element;
-		this.element.getServer().getPluginManager().registerEvents(this, element);
-		
 		this.beginEffect = spellConfig.getString(RESISTENCE_BEGIN);
 		this.endEffect = spellConfig.getString(RESISTENCE_END);
 		if(spellConfig.contains(DURATION))
@@ -95,9 +92,6 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 
 	@Override
 	public void save(MagickElement element, ConfigurationSection spellConfig) {
-		this.element = element;
-		this.element.getServer().getPluginManager().registerEvents(this, element);
-		
 		spellConfig.set(DURATION, duration);
 		spellConfig.set(RESISTENCE_BEGIN, beginEffect);
 		spellConfig.set(RESISTENCE_END, endEffect);
@@ -136,5 +130,11 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 	public void run() {
 		for(LivingEntity entity : resistence) 
 			entity.removePotionEffect(potionEffect);
+	}
+
+	@Override
+	public void after(MagickElement element) {
+		this.element = element;
+		this.element.getServer().getPluginManager().registerEvents(this, element);
 	}
 }

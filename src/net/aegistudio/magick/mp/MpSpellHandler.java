@@ -143,8 +143,6 @@ public class MpSpellHandler implements SpellHandler {
 	
 	@Override
 	public void load(MagickElement element, ConfigurationSection configuration) {
-		this.element = element;
-		
 		if(configuration.contains(RECOVERY_COUNT)) 
 			recoveryCount = configuration.getInt(RECOVERY_COUNT);
 		if(configuration.contains(RECOVERY_INTERVAL))
@@ -188,5 +186,10 @@ public class MpSpellHandler implements SpellHandler {
 	@Override
 	public String infoSpell(SpellEntry entry) {
 		return mpConsume.replace("$required", Integer.toString((Integer)entry.handlerInfo));
+	}
+
+	@Override
+	public void after(MagickElement element) {
+		this.element = element;
 	}
 }

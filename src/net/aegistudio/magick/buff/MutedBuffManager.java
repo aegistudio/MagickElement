@@ -46,11 +46,16 @@ public class MutedBuffManager implements BuffManager {
 	
 	@Override
 	public void load(MagickElement element, ConfigurationSection section) {
-		this.element = element;
+		
 	}
 
 	@Override
 	public void save(MagickElement element, ConfigurationSection section) {
+		
+	}
+
+	@Override
+	public void after(MagickElement element) {
 		this.element = element;
 	}
 	

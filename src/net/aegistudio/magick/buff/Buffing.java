@@ -29,4 +29,9 @@ public class Buffing implements SpellEffect {
 	public void save(MagickElement element, ConfigurationSection spellConfig) {
 		
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }

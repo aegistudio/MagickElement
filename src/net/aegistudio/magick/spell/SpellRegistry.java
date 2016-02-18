@@ -27,7 +27,6 @@ public class SpellRegistry implements Module {
 			spellEntry.load(element, spell);
 			spellRegistries.put(spellKey, spellEntry);
 		}
-		element.commands.put("spell", new SpellCommand());
 	}
 	
 	public void save(MagickElement element, ConfigurationSection spellSection) throws Exception {
@@ -37,6 +36,12 @@ public class SpellRegistry implements Module {
 			ConfigurationSection spell = spellSection.getConfigurationSection(spellKey);
 			spellEntry.save(element, spell);
 		}
-		element.commands.put("spell", new SpellCommand());
+	}
+
+	@Override
+	public void after(MagickElement element) {
+		element.commands.put("spell", new SpellCommand());	
+		for(SpellEntry entry : spellRegistries.values())
+			entry.after(element);
 	}
 }

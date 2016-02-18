@@ -39,4 +39,9 @@ public class PagingBookFactory implements BookFactory {
 		config.set(TRY_TO_CLONE, tryToClone);
 		config.set(IDENTIFIER, firstPageIdentifier);
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }

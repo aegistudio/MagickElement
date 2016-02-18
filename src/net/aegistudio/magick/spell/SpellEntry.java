@@ -84,4 +84,10 @@ public class SpellEntry implements Module {
 	public void makeMagick(MagickElement element, Player player, Location location, ItemStack bookUsing, String spellContent) {
 		this.effect.spell(element, player, location, spellContent.split(" "));
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		this.effect.after(element);
+		this.spellPrice.after(element);
+	}
 }

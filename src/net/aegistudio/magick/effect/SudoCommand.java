@@ -39,4 +39,9 @@ public class SudoCommand implements SpellEffect {
 		spellConfig.set(COMMAND, command);
 		spellConfig.set(NEED_POWER, needPower);
 	}
+
+	@Override
+	public void after(MagickElement element) {
+		
+	}
 }
