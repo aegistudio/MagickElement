@@ -163,10 +163,6 @@ public class MpSpellHandler implements SpellHandler {
 			sufficient = configuration.getString(MP_SUFFICIENT);
 		if(configuration.contains(MP_CONSUME))
 			mpConsume = configuration.getString(MP_CONSUME);
-		
-		element.getServer().getScheduler().scheduleSyncRepeatingTask(element, 
-				new MpRecovery(element, this)
-				, recoveryInterval, recoveryInterval);
 	}
 
 	@Override
@@ -191,5 +187,8 @@ public class MpSpellHandler implements SpellHandler {
 	@Override
 	public void after(MagickElement element) {
 		this.element = element;
+		element.getServer().getScheduler().scheduleSyncRepeatingTask(element, 
+				new MpRecovery(element, this)
+				, recoveryInterval, recoveryInterval);
 	}
 }
