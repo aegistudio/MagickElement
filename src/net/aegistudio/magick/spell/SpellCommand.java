@@ -4,10 +4,10 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.ChatColor;
 
 import net.aegistudio.magick.CommandHandle;
 import net.aegistudio.magick.MagickElement;
-import net.md_5.bungee.api.ChatColor;
 
 public class SpellCommand implements CommandHandle {
 	

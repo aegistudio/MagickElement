@@ -14,7 +14,7 @@ import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.particle.PlayerParticle;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 /**
  * Consume mana power (MP) to use spells. MP is calculated

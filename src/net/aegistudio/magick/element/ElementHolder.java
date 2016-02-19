@@ -70,7 +70,6 @@ public class ElementHolder implements Module {
 			ItemDamagePair target = transform.get(sourcePair.getKey());
 			if(target != null) section.set(TARGET_ENTRY, target.toString());
 		}
-
 	}
 
 	@Override

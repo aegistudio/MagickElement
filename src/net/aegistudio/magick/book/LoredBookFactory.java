@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Listener;
 
 import net.aegistudio.magick.MagickElement;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class LoredBookFactory implements BookFactory {
 	public static final String BOOK_LORE = "bookLore";

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 
 import net.aegistudio.magick.CommandHandle;
 import net.aegistudio.magick.MagickElement;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 public class ElementCommand implements CommandHandle {
 

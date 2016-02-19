@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.ChatColor;
 
 import net.aegistudio.magick.book.BookFactory;
 import net.aegistudio.magick.book.MagickBook;
@@ -20,7 +21,6 @@ import net.aegistudio.magick.element.ElementHolder;
 import net.aegistudio.magick.mp.MpSpellHandler;
 import net.aegistudio.magick.spell.SpellHandler;
 import net.aegistudio.magick.spell.SpellRegistry;
-import net.md_5.bungee.api.ChatColor;
 
 public class MagickElement extends JavaPlugin {
 	public static final String BOOK_FACTORY = "bookFactory";
