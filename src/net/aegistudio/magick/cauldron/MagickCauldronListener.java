@@ -5,6 +5,7 @@ import java.util.TreeSet;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +17,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.inventory.BlockCoordinate;
 import net.aegistudio.magick.particle.BlockParticle;
+import net.aegistudio.magick.particle.MagickParticle;
 
 public class MagickCauldronListener implements Listener {
 	private final TreeSet<BlockCoordinate> activatedCauldrons = new TreeSet<BlockCoordinate>();
@@ -60,6 +62,21 @@ public class MagickCauldronListener implements Listener {
 	
 	private final BlockParticle blockParticle = new BlockParticle(Effect.HAPPY_VILLAGER, 6);
 	
+	private final MagickParticle glyph = new MagickParticle(Sound.ORB_PICKUP) {
+		public int tier() {
+			return 10;
+		}
+		
+		public float volume() {
+			return 0.07f;
+		}
+		
+		public float pitch() {
+			return 0.5f * TONAL_PITCH_LOOKUP[(int)Math.min(Math
+					.round(8.0f * Math.random()), 7)];
+		}
+	};
+	
 	@EventHandler
 	public void onActivateCauldron(BlockIgniteEvent event) {
 		Location location = event.getBlock().getLocation().add(0, 1, 0);
@@ -75,8 +92,9 @@ public class MagickCauldronListener implements Listener {
 			protected void doTick() {
 				// Validate block changes.
 				if(block.getWorld().getBlockAt(block.getLocation()).getType() != Material.CAULDRON) return;
-				for(int i = 0; i < 10; i ++)
-					block.getWorld().playEffect(block.getLocation().add(0.5, 1, 0.5), Effect.FLYING_GLYPH, null);
+				//for(int i = 0; i < 10; i ++)
+				//	block.getWorld().playEffect(block.getLocation().add(0.5, 1, 0.5), Effect.FLYING_GLYPH, null);
+				glyph.play(block.getLocation().add(0.5, 1, 0.5));
 			}
 
 			@Override
@@ -87,6 +105,7 @@ public class MagickCauldronListener implements Listener {
 				activatedCauldrons.remove(new BlockCoordinate(block.getLocation()));
 				blockParticle.show(block);
 				inventory.brewBlock(block);
+				block.getWorld().playSound(block.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 			}
 		};
 		if(event.getPlayer() != null) 

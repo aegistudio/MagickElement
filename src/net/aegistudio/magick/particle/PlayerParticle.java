@@ -1,7 +1,7 @@
 package net.aegistudio.magick.particle;
 
 import org.bukkit.Effect;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 public class PlayerParticle {
 	private final Effect effectType;
@@ -15,7 +15,7 @@ public class PlayerParticle {
 		this.tier = tier;
 	}
 	
-	public void show(Player player) {
+	public void show(Entity player) {
 		for(int i = 0; i < tier(); i ++)
 			player.getWorld().playEffect(player.getLocation().add(Math.random() - 0.5, 
 					2 * Math.random(), Math.random() - 0.5), effectType, data());

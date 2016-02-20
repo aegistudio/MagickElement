@@ -5,6 +5,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.bukkit.Effect;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -47,6 +48,7 @@ public class MpSpellHandler implements SpellHandler {
 				
 				new MpCooldown(this, player);
 				new PlayerParticle(Effect.HAPPY_VILLAGER, spellPoint).show(player);
+				player.getWorld().playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
 			}
 			
 			String title = ((BookMeta)(magickBook.getItemMeta())).getTitle();
