@@ -76,7 +76,7 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	public void handleSpell(Player player, ItemStack magickBook) {
 		if(!this.chantRecord.containsKey(player.getEntityId()))
 			this.beginChant(player, magickBook);
-		else element.buff.buff(player, this, chantLimit);
+		element.buff.buff(player, this, chantLimit);
 	}
 
 	public static final String CHANTING_POINT = "chantingTime";
@@ -116,13 +116,11 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	}
 	
 	protected void beginChant(Entity entity, ItemStack magickBook) {
-		if(!chantRecord.containsKey(entity.getEntityId())) {
-			ChantRecordEntry entry = new ChantRecordEntry(element, magickBook);
-			this.chantRecord.put(entity.getEntityId(), entry);
-			entry.chantParticle.play(entity.getLocation());
-			if(this.beginChant != null)
-				entity.sendMessage(entry.tips(this.beginChant));
-		}
+		ChantRecordEntry entry = new ChantRecordEntry(element, magickBook);
+		this.chantRecord.put(entity.getEntityId(), entry);
+		entry.chantParticle.play(entity.getLocation());
+		if(this.beginChant != null)
+			entity.sendMessage(entry.tips(this.beginChant));
 	}
 	
 	public TreeMap<Integer, ChantRecordEntry> chantRecord

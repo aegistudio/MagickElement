@@ -3,15 +3,15 @@ package net.aegistudio.magick.buff;
 import java.util.HashMap;
 
 public class BuffRecord {
-	public HashMap<Buff, Integer> buffRecord = new HashMap<Buff, Integer>();
+	public HashMap<Buff, Long> buffRecord = new HashMap<Buff, Long>();
 	
-	public void set(Buff buff, int count) {
-		if(count == 0) buffRecord.remove(buff);
-		else buffRecord.put(buff, count);
+	public void set(Buff buff, long duration) {
+		if(duration <= 0) buffRecord.remove(buff);
+		else buffRecord.put(buff, duration);
 	}
 	
-	public int get(Buff buff) {
-		Integer buffCount = buffRecord.get(buff);
+	public long get(Buff buff) {
+		Long buffCount = buffRecord.get(buff);
 		if(buffCount == null) return 0;
 		else return buffCount;
 	}
@@ -25,6 +25,6 @@ public class BuffRecord {
 	}
 	
 	public boolean hasBuff() {
-		return buffRecord.isEmpty();
+		return !buffRecord.isEmpty();
 	}
 }

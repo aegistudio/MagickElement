@@ -13,7 +13,7 @@ import net.aegistudio.magick.book.BookFactory;
 import net.aegistudio.magick.book.MagickBook;
 import net.aegistudio.magick.book.PagingBookFactory;
 import net.aegistudio.magick.buff.BuffManager;
-import net.aegistudio.magick.buff.MutedBuffManager;
+import net.aegistudio.magick.buff.ScoreboardBuffManager;
 import net.aegistudio.magick.cauldron.CauldronInventoryHandler;
 import net.aegistudio.magick.cauldron.CauldronFactory;
 import net.aegistudio.magick.cauldron.MagickCauldronFactory;
@@ -93,7 +93,7 @@ public class MagickElement extends JavaPlugin {
 			
 			// Buff
 			buff = this.loadInstance(BuffManager.class, config, BUFFMANAGER_CLASS, 
-					MutedBuffManager.class, BUFFMANAGER_CONFIG, null);
+					ScoreboardBuffManager.class, BUFFMANAGER_CONFIG, null);
 			getLogger().info("Successfully loaded buff manager.");
 			
 			super.saveConfig();
