@@ -4,6 +4,7 @@ import java.util.TreeMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -169,7 +170,11 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	@Override
 	public void remove(MagickElement element, Entity entity) {
 		ChantRecordEntry record = chantRecord.remove(entity.getEntityId());
-		if(record != null) if(spellBreak != null)
+		if(record != null) {
+			if(spellBreak != null)
 				entity.sendMessage(record.tips(spellBreak));
+			entity.getWorld().playSound(entity.getLocation(), Sound.NOTE_BASS, 1.2f, 0.5f);
+			entity.getWorld().playSound(entity.getLocation(), Sound.NOTE_BASS, 1.2f, 0.25f);
+		}
 	}
 }

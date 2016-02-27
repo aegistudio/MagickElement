@@ -31,12 +31,18 @@ public class NearbyPlayerFilter implements EntityFilter {
 	}
 
 	@Override
-	public void loadConfig(MagickElement element, ConfigurationSection configuration) {
-		this.element = element;
+	public void load(MagickElement magick, ConfigurationSection config) throws Exception {
+		
 	}
 
 	@Override
-	public void saveConfig(MagickElement element, ConfigurationSection configuration) {
+	public void save(MagickElement element, ConfigurationSection config) throws Exception {
+		
+	}
+
+	@Override
+	public void after(MagickElement element) {
 		this.element = element;
 	}
+
 }

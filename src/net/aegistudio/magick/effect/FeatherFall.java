@@ -2,8 +2,8 @@ package net.aegistudio.magick.effect;
 
 import java.util.TreeSet;
 
-import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.buff.Buff;
+import net.aegistudio.magick.particle.MagickParticle;
 import net.aegistudio.magick.spell.SpellEffect;
 
 public class FeatherFall implements SpellEffect, Listener, Buff {
@@ -48,14 +49,18 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 		spellConfig.set(EFFECT_BUFFNAME, buffName);
 	}
 
+	private final MagickParticle feather = new MagickParticle(Sound.ENDERDRAGON_WINGS) {
+		public float volume() {
+			return Math.random() < (1.0 / 12)? 1.0f : 0.0f;
+		}
+	};
+	
 	@EventHandler
 	public void handleFallSpeed(PlayerMoveEvent event) {
 		if(!protecting.contains(event.getPlayer().getEntityId())) return;
 		if(event.getPlayer().getVelocity().getY() < -velocity) {
 			event.getPlayer().setVelocity(event.getPlayer().getVelocity().setY(-velocity));
-			event.getPlayer().getLocation().getWorld()
-				.playEffect(event.getPlayer().getLocation(),
-						Effect.FLYING_GLYPH, null);
+			feather.play(event.getPlayer().getLocation());
 			event.getPlayer().setFallDistance(0);
 		}
 	}
