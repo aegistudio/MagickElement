@@ -5,20 +5,20 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Spawnable;
 import net.aegistudio.magick.particle.EffectParticle;
-import net.aegistudio.magick.particle.Particle;
 
 public class TrackedPainterFactory implements PainterFactory {
 	private double scale = 5.0; public static final String SCALE = "scale";
 	
-	public Particle effect = new EffectParticle(Effect.HAPPY_VILLAGER);
+	public Spawnable effect = new EffectParticle(Effect.HAPPY_VILLAGER);
 	public static final String EFFECT_CLASS = "effectClass";
 	public static final String EFFECT_CONFIG = "effectConfig";
 	
 	@Override
 	public void load(MagickElement magick, ConfigurationSection config) throws Exception {
 		if(config.contains(SCALE)) scale = config.getDouble(SCALE);
-		this.effect = magick.loadInstance(Particle.class, config, EFFECT_CLASS, null, EFFECT_CONFIG, null);
+		this.effect = magick.loadInstance(Spawnable.class, config, EFFECT_CLASS, null, EFFECT_CONFIG, null);
 	}
 
 	@Override

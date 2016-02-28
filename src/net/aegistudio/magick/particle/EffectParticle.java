@@ -5,8 +5,9 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Spawnable;
 
-public class EffectParticle implements Particle {
+public class EffectParticle implements Spawnable {
 	Effect effect; public static final String EFFECT_TYPE = "effectType";
 	int data; public static final String EFFECT_DATA = "effectData";
 	
@@ -35,7 +36,7 @@ public class EffectParticle implements Particle {
 	public void after(MagickElement element) {	}
 
 	@Override
-	public void play(Location location) {
+	public void spawn(Location location) {
 		location.getWorld().playEffect(location, effect, data);
 	}
 }

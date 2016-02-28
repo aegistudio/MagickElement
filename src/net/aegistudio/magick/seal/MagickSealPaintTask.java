@@ -23,6 +23,7 @@ public class MagickSealPaintTask implements Runnable {
 	public void run() {
 		if(ticks > 0) {
 			this.seal.generator.generate(painter);
+			this.painter.end();
 			ticks --;
 		}
 		else {
