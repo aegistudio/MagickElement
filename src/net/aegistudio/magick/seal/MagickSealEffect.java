@@ -28,7 +28,7 @@ public class MagickSealEffect implements SpellEffect {
 		if(config.contains(REPAINT_TICK)) repaintTick = config.getInt(REPAINT_TICK);
 		
 		painterFactory = magick.loadInstance(PainterFactory.class, config, 
-				PAINTER_CLAZZ, TrackedPainterFactory.class, PAINTER_CONFIG, null);
+				PAINTER_CLAZZ, TrackedFactory.class, PAINTER_CONFIG, null);
 		generator = magick.loadInstance(Generator.class, config, GENERATOR_CLAZZ, 
 				SparseGenerator.class, GENERATOR_CONFIG, null);
 	}

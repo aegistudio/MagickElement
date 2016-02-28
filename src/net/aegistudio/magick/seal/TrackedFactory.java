@@ -8,7 +8,7 @@ import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Spawnable;
 import net.aegistudio.magick.particle.EffectParticle;
 
-public class TrackedPainterFactory implements PainterFactory {
+public class TrackedFactory implements PainterFactory {
 	private double scale = 5.0; public static final String SCALE = "scale";
 	
 	public Spawnable effect = new EffectParticle(Effect.HAPPY_VILLAGER);

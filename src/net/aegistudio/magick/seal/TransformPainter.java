@@ -6,7 +6,7 @@ public abstract class TransformPainter implements Painter {
 	protected final Painter next;
 	
 	public TransformPainter(Painter next,
-			double[][] trans, double actual[][]) {
+			double[][] trans, double[][] actual) {
 		this.next = next;
 		this.trans = trans;
 		this.actual = actual;

@@ -5,31 +5,20 @@ import org.bukkit.entity.Entity;
 
 import net.aegistudio.magick.MagickElement;
 
-public class XyRotateFactory implements PainterFactory {
-	private PainterFactory wrapped = new TrackedPainterFactory();	
-	public static final String WRAPPED_CLASS = "wrappedClass";
-	public static final String WRAPPED_CONFIG = "wrappedConfig";
-	
+public class XyRotateFactory extends WrappedPainterFactory {
 	private double rotationSpeed = 0.10;
 	public static final String ROTATION_SPEED = "rotationSpeed";
 	
 	@Override
 	public void load(MagickElement magick, ConfigurationSection config) throws Exception {
-		this.wrapped = magick.loadInstance(PainterFactory.class, config, WRAPPED_CLASS, 
-				TrackedPainterFactory.class, WRAPPED_CONFIG, null);
+		super.load(magick, config);
 		this.rotationSpeed = config.getDouble(ROTATION_SPEED);
 	}
 
 	@Override
 	public void save(MagickElement element, ConfigurationSection config) throws Exception {
-		config.set(WRAPPED_CLASS, this.wrapped.getClass().getName());
-		if(!config.contains(WRAPPED_CONFIG)) config.createSection(WRAPPED_CONFIG);
-		this.wrapped.save(element, config.getConfigurationSection(WRAPPED_CONFIG));
+		super.save(element, config);
 		config.set(ROTATION_SPEED, rotationSpeed);
-	}
-
-	@Override
-	public void after(MagickElement element) {
 	}
 
 	@Override
@@ -46,8 +35,8 @@ public class XyRotateFactory implements PainterFactory {
 			@Override
 			public void end() {
 				this.multTrans();
+				next.end();
 			}
 		};
 	}
-
 }

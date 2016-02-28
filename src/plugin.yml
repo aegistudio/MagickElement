@@ -1,6 +1,6 @@
 name: MagickElement
 main: net.aegistudio.magick.MagickElement
-version: 0.06-beta
+version: 0.11-beta
 author: aegistudio
 commands:
   magick:
