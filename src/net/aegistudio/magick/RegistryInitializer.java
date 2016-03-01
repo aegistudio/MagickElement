@@ -1,13 +1,13 @@
 package net.aegistudio.magick;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffectType;
-
-import net.aegistudio.magick.effect.EntityRain;
+import net.aegistudio.magick.effect.RangedSpawn;
 import net.aegistudio.magick.effect.FeatherFall;
 import net.aegistudio.magick.effect.PotionResistence;
 import net.aegistudio.magick.effect.VampireHand;
 import net.aegistudio.magick.element.ElementDefinition;
+import net.aegistudio.magick.entity.Lightning;
+import net.aegistudio.magick.entity.NearestGround;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellRegistry;
 
@@ -15,22 +15,23 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 	@Override
 	public void initial(MagickElement element, SpellRegistry registry) {
 		{
-			SpellEntry meteorite = new SpellEntry(element);
-			EntityRain meteoriteRain = new EntityRain();
-			meteorite.effect = meteoriteRain;
-			meteorite.description = "Cause meteorite from outside the world to drop.";
-			meteoriteRain.cluster = 1;
-			meteoriteRain.tier = 5;
-			meteoriteRain.delay = 20;
-			meteoriteRain.entity = EntityType.FIREBALL;
+			SpellEntry lightning = new SpellEntry(element);
+			RangedSpawn lightningRound = new RangedSpawn();
+			lightning.effect = lightningRound;
+			lightning.description = "Ziz iz an epic dizcharge of electric power from zky, zzz...";
+			lightningRound.cluster = 3;
+			lightningRound.tier = 5;
+			lightningRound.delay = 40;
+			lightningRound.entity = new NearestGround(new Lightning());
 			
-			meteorite.spellPrice = new ElementDefinition();
-			meteorite.spellPrice.setElementPoint("fire", 40);
-			meteorite.spellPrice.setElementPoint("divine", 10);
-			meteorite.spellPrice.setElementPoint("evil", 20);
+			lightning.spellPrice = new ElementDefinition();
+			lightning.spellPrice.setElementPoint("electric", 30);
+			lightning.spellPrice.setElementPoint("wind", 30);
+			lightning.spellPrice.setElementPoint("divine", 10);
+			lightning.spellPrice.setElementPoint("evil", 20);
 			
-			meteorite.handlerInfo = 30;
-			registry.spellRegistries.put("meteorite", meteorite);
+			lightning.handlerInfo = 50;
+			registry.spellRegistries.put("lightning", lightning);
 		}
 		
 		{
