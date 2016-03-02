@@ -2,6 +2,7 @@ package net.aegistudio.magick.book;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -20,8 +21,12 @@ public class MagickBookListener implements Listener {
 	@EventHandler
 	public void onItemUse(PlayerInteractEvent event) {
 		if(!this.element.book.isMagickBook(event.getItem())) return;
-		this.element.handler.handleSpell(event.getPlayer(), event.getItem());
-		event.setCancelled(true);
+		if(event.getAction() == Action.RIGHT_CLICK_AIR 
+				|| event.getAction() == Action.RIGHT_CLICK_BLOCK 
+				|| event.getAction() == Action.PHYSICAL) {
+			this.element.handler.handleSpell(event.getPlayer(), event.getItem());
+			event.setCancelled(true);
+		}
 	}
 	
 	/** Prevent magick book from cloning. **/

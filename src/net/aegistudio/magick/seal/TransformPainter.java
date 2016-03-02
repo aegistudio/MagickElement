@@ -31,6 +31,18 @@ public abstract class TransformPainter implements Painter {
 		next.paint(this.vec[0], this.vec[1], this.vec[2]);
 	}
 	
+	protected void setZero() {
+		for(int i = 0; i < 4; i ++)
+			for(int j = 0; j < 4; j ++)
+				actual[i][j] = 0;
+	}
+	
+	protected void addTrans() {
+		for(int i = 0; i < 4; i ++)
+			for(int j = 0; j < 4; j ++)
+					actual[i][j] += this.trans[i][j];
+	}
+	
 	protected void multTrans() {
 		double[][] nextActual = new double[4][4];
 		for(int i = 0; i < 4; i ++)

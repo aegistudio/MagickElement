@@ -26,9 +26,7 @@ public class YawOrientPainter extends TransformPainter {
 	public static final double FACTOR = Math.PI / 180;
 	
 	public void calculateTranslation(Location orient) {
-		for(int i = 0; i < 4; i ++)
-			for(int j = 0; j < 4; j ++) 
-				actual[i][j] = 0;
+		super.setZero();
 		
 		double cosRotActual = Math.cos(orient.getYaw() * FACTOR);
 		double sinRotActual = Math.sin(orient.getYaw() * FACTOR);
