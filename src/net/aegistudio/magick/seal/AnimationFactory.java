@@ -38,10 +38,7 @@ public class AnimationFactory implements PainterFactory {
 		config.set(ORDER, order);
 		for(String current : order) {
 			PainterFactory pFactory = factory.get(current);
-			config.set(current.concat(CLASS), pFactory.getClass().getName());
-			if(!config.contains(current.concat(CONFIG))) config.createSection(current.concat(CONFIG));
-			pFactory.save(element, config.getConfigurationSection(current.concat(CONFIG)));
-			
+			element.saveInstance(pFactory, config, current.concat(CLASS), current.concat(CONFIG));
 			config.set(current.concat(TICKS), ticks.get(current));
 		}
 	}

@@ -117,6 +117,20 @@ public class MagickElement extends JavaPlugin {
 		return instance;
 	}
 	
+	public <T extends Module> void saveConfig(T instance, ConfigurationSection config, 
+			String configEntry) throws Exception {
+		if(!config.contains(configEntry)) config.createSection(configEntry);
+		ConfigurationSection configSection = config.getConfigurationSection(configEntry);
+		instance.save(this, configSection);
+	}
+	
+	public <T extends Module> void saveInstance(T instance, ConfigurationSection config, 
+			String classEntry, String configEntry) throws Exception {
+		config.set(classEntry, instance.getClass().getName());
+		
+		this.saveConfig(instance, config, configEntry);
+	}
+	
 	public <T extends Module> T loadConfig(T instance, ConfigurationSection parent, 
 			String configEntry, Initializer<T> abscence) throws Exception {
 		

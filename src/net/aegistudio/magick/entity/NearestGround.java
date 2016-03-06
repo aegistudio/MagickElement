@@ -30,10 +30,7 @@ public class NearestGround implements Spawnable {
 	@Override
 	public void save(MagickElement element, ConfigurationSection config) throws Exception {
 		config.set(ALLOWED_RANGE, allowedRange);
-		
-		config.set(WRAPPED_CLASS, wrapped.getClass().getName());
-		if(!config.contains(WRAPPED_CONFIG)) config.createSection(WRAPPED_CONFIG);
-		wrapped.save(element, config.getConfigurationSection(WRAPPED_CONFIG));
+		element.saveInstance(wrapped, config, WRAPPED_CLASS, WRAPPED_CONFIG);
 	}
 
 	@Override

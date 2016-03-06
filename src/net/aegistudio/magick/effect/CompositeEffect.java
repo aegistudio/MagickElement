@@ -34,12 +34,8 @@ public abstract class CompositeEffect implements SpellEffect {
 	@Override
 	public void save(MagickElement element, ConfigurationSection config) throws Exception {
 		for(Entry<String, CompositeEffectEntry> subEffect : subEffects.entrySet()) {
-			config.set(subEffect.getKey().concat("Class"), subEffect.getValue().getClass());
-			
-			String subEffectConfig = subEffect.getKey().concat("Config");
-			ConfigurationSection subEffectSection = config.getConfigurationSection(subEffectConfig);
-			if(!config.contains(subEffectConfig)) subEffectSection = config.createSection(subEffectConfig);
-			subEffect.getValue().effect.save(element, subEffectSection);
+			element.saveInstance(subEffect.getValue().effect, config, 
+					subEffect.getKey().concat("Class"), subEffect.getKey().concat("Config"));
 			
 			if(subEffect.getValue().probability < 1.0d)
 				config.set(subEffect.getKey().concat("Probability"), subEffect.getValue().probability);

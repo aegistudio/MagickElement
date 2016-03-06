@@ -24,10 +24,8 @@ public class TrackedFactory implements PainterFactory {
 	@Override
 	public void save(MagickElement element, ConfigurationSection config) throws Exception {
 		config.set(SCALE, scale);
-		config.set(EFFECT_CLASS, effect.getClass().getName());
 		
-		if(!config.contains(EFFECT_CONFIG)) config.createSection(EFFECT_CONFIG);
-		this.effect.save(element, config.getConfigurationSection(EFFECT_CONFIG));
+		element.saveInstance(this.effect, config, EFFECT_CLASS, EFFECT_CONFIG);
 	}
 
 	@Override

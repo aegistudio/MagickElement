@@ -59,20 +59,10 @@ public class SpellEntry implements Module {
 	
 	public void save(MagickElement element, ConfigurationSection configuration) throws Exception {
 		// Save spell class.
-		configuration.set(EFFECT_CLASS, effect.getClass().getName());
-		
-		// Save spell effect config.
-		if(!configuration.contains(EFFECT_CONFIG))
-			configuration.createSection(EFFECT_CONFIG);
-		ConfigurationSection effectConfig = configuration.getConfigurationSection(EFFECT_CONFIG);
-		effect.save(element, effectConfig);
+		element.saveInstance(effect, configuration, EFFECT_CLASS, EFFECT_CONFIG);
 		
 		// Save spell price config.
-		if(!configuration.contains(ELEMENT_REQUIRED))
-			configuration.createSection(ELEMENT_REQUIRED);
-		ConfigurationSection elementConfig = configuration
-				.getConfigurationSection(ELEMENT_REQUIRED);
-		spellPrice.save(element, elementConfig);
+		element.saveConfig(spellPrice, configuration, ELEMENT_REQUIRED);
 		
 		// Save description.
 		configuration.set(SPELL_DESCRIPTION, description);

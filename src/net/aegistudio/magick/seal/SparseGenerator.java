@@ -62,8 +62,7 @@ public class SparseGenerator implements Generator {
 	public void save(MagickElement element, ConfigurationSection config) throws Exception {
 		config.set(RESOLUTION, resolution);
 		config.set(SOURCE_IMAGE, source != null? source.getName() : "<image-name>");
-		config.set(FILTER_CLAZZ, filter.getClass().getName());
-		filter.save(element, config.createSection(FILTER_CONFIG));
+		element.saveInstance(filter, config, FILTER_CLAZZ, FILTER_CONFIG);
 	}
 
 	@Override

@@ -38,13 +38,8 @@ public class MagickSealEffect implements SpellEffect {
 		config.set(TOTAL_PAINT_TICK, totalPaintTick);
 		config.set(REPAINT_TICK, repaintTick);
 		
-		config.set(PAINTER_CLAZZ, painterFactory.getClass().getName());
-		if(!config.contains(PAINTER_CONFIG)) config.createSection(PAINTER_CONFIG);
-		painterFactory.save(element, config.getConfigurationSection(PAINTER_CONFIG));
-		
-		config.set(GENERATOR_CLAZZ, generator.getClass().getName());
-		if(!config.contains(GENERATOR_CONFIG)) config.createSection(GENERATOR_CONFIG);
-		generator.save(element, config.getConfigurationSection(GENERATOR_CONFIG));
+		element.saveInstance(painterFactory, config, PAINTER_CLAZZ, PAINTER_CONFIG);
+		element.saveInstance(generator, config, GENERATOR_CLAZZ, GENERATOR_CONFIG);
 	}
 
 	MagickElement element;

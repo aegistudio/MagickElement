@@ -16,9 +16,7 @@ public abstract class WrappedPainterFactory implements PainterFactory{
 
 	@Override
 	public void save(MagickElement element, ConfigurationSection config) throws Exception {
-		config.set(WRAPPED_CLASS, this.wrapped.getClass().getName());
-		if(!config.contains(WRAPPED_CONFIG)) config.createSection(WRAPPED_CONFIG);
-		this.wrapped.save(element, config.getConfigurationSection(WRAPPED_CONFIG));
+		element.saveInstance(this.wrapped, config, WRAPPED_CLASS, WRAPPED_CONFIG);
 	}
 
 	@Override

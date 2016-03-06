@@ -44,9 +44,7 @@ public class RangedSpawn implements SpellEffect {
 		spellConfig.set(DELAY, delay);
 		spellConfig.set(CLUSTER, cluster);
 		
-		spellConfig.set(ENTITY_CLASS, entity.getClass().getName());
-		if(!spellConfig.contains(ENTITY_CONFIG)) spellConfig.createSection(ENTITY_CONFIG);
-		entity.save(element, spellConfig.getConfigurationSection(ENTITY_CONFIG));
+		element.saveInstance(entity, spellConfig, ENTITY_CLASS, ENTITY_CONFIG);
 	}
 
 	@Override
