@@ -5,13 +5,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.bukkit.Effect;
-import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.particle.PlayerParticle;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
@@ -48,7 +48,7 @@ public class MpSpellHandler implements SpellHandler {
 				
 				new MpCooldown(this, player);
 				new PlayerParticle(Effect.HAPPY_VILLAGER, spellPoint).show(player);
-				player.getWorld().playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
+				player.getWorld().playSound(player.getLocation(), CompatibleSound.LEVEL_UP.get(element), 1.0f, 1.0f);
 			}
 			
 			String title = ((BookMeta)(magickBook.getItemMeta())).getTitle();

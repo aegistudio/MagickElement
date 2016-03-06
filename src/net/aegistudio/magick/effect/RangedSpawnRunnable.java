@@ -33,11 +33,15 @@ public class RangedSpawnRunnable implements Runnable {
 	protected void next() {
 		if(tiersRemained > 0)
 			element.getServer().getScheduler().runTaskLater(element, 
-					this, (long) (Math.random() * spawn.delay));
+					this, (long)(Math.random() * spawn.delay));
 		tiersRemained --;
 	}
 	
 	public void start() {
-		this.next();
+		if(tiersRemained > 0) {
+			element.getServer().getScheduler()
+				.runTaskLater(element, this, spawn.lag + (long)(Math.random() * spawn.delay));
+			tiersRemained --;
+		}
 	}
 }

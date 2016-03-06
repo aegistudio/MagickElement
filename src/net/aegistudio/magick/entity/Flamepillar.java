@@ -2,12 +2,12 @@ package net.aegistudio.magick.entity;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.FallingBlock;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Spawnable;
+import net.aegistudio.magick.compat.CompatibleSound;
 
 public class Flamepillar implements Spawnable {
 	@Override
@@ -20,16 +20,17 @@ public class Flamepillar implements Spawnable {
 		
 	}
 
+	private MagickElement element;
 	@Override
 	public void after(MagickElement element) {
-		
+		this.element = element;
 	}
 
 	public static final double PILLAR_FACTOR = 0.12;
 	@SuppressWarnings("deprecation")
 	@Override
 	public void spawn(Location location) {
-		location.getWorld().playSound(location, Sound.FIZZ, 1.0f, 1.0f);
+		location.getWorld().playSound(location, CompatibleSound.FIZZ.get(element), 1.0f, 1.0f);
 		FallingBlock previous = null;
 		for(int i = 0; i < 3; i ++) {
 			FallingBlock block = location.getWorld()

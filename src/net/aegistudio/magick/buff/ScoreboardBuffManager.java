@@ -50,4 +50,14 @@ public class ScoreboardBuffManager implements BuffManager {
 	public void after(MagickElement element) {
 		this.element = element;
 	}
+
+	@Override
+	public void unbuff(Entity entity, Buff buff) {
+		BuffRecord buffRecord = entityBuffs.get(entity);
+		if(buffRecord == null) return;
+		if(buffRecord.hasBuff(buff)) {
+			buffRecord.remove(buff);
+			buff.remove(element, entity);
+		}
+	}
 }

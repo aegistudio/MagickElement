@@ -20,6 +20,10 @@ public class BuffRecord {
 		this.set(buff, this.get(buff) + count);
 	}
 	
+	public void remove(Buff buff) {
+		this.buffRecord.remove(buff);
+	}
+	
 	public boolean hasBuff(Buff buff) {
 		return buffRecord.containsKey(buff);
 	}

@@ -4,7 +4,6 @@ import java.util.TreeMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
-import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.buff.Buff;
+import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.particle.PlayerParticle;
 import net.aegistudio.magick.spell.SpellEntry;
 import net.aegistudio.magick.spell.SpellHandler;
@@ -148,6 +148,7 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 						record.tips(this.endChant);
 				}
 				chantRecord.remove(entityId);
+				element.buff.unbuff(entity, this);
 			}
 			else 
 				record.chantParticle.play(entity.getLocation());
@@ -161,7 +162,7 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	public void onPlayerMove(PlayerMoveEvent event) {
 		if(chantRecord.containsKey(event.getPlayer().getEntityId())) {
 			if(event.getTo().distance(event.getFrom()) >= threshold) 
-				this.remove(element, event.getPlayer());
+				element.buff.unbuff(event.getPlayer(), this);
 		}
 	}
 	
@@ -171,8 +172,8 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 		if(record != null) {
 			if(spellBreak != null)
 				entity.sendMessage(record.tips(spellBreak));
-			entity.getWorld().playSound(entity.getLocation(), Sound.NOTE_BASS, 1.2f, 0.5f);
-			entity.getWorld().playSound(entity.getLocation(), Sound.NOTE_BASS, 1.2f, 0.25f);
+			entity.getWorld().playSound(entity.getLocation(), CompatibleSound.NOTE_BASS.get(element), 1.2f, 0.5f);
+			entity.getWorld().playSound(entity.getLocation(), CompatibleSound.NOTE_BASS.get(element), 1.2f, 0.25f);
 		}
 	}
 }

@@ -13,7 +13,8 @@ public class RangedSpawn implements SpellEffect {
 	public static final String CLUSTER = "cluster"; public int cluster = 1;
 	public static final String RANGE = "maxRange";	public double range = 5.0;
 	public static final String MIN_RANGE = "minRange"; public double minRange = 1.0;
-	public static final String DELAY = "delay"; public int delay = 40;
+	public static final String LAG = "lag"; public long lag = 0;
+	public static final String DELAY = "delay"; public long delay = 40;
 	public static final String ENTITY_CLASS = "entityClass"; 
 	public static final String ENTITY_CONFIG = "entityConfig";
 	public Spawnable entity;
@@ -28,7 +29,8 @@ public class RangedSpawn implements SpellEffect {
 		if(spellConfig.contains(TIER)) tier = spellConfig.getInt(TIER);
 		if(spellConfig.contains(RANGE)) range = spellConfig.getDouble(RANGE);
 		if(spellConfig.contains(MIN_RANGE)) minRange = spellConfig.getDouble(MIN_RANGE);
-		if(spellConfig.contains(DELAY)) delay = spellConfig.getInt(DELAY);
+		if(spellConfig.contains(DELAY)) delay = spellConfig.getLong(DELAY);
+		if(spellConfig.contains(LAG)) lag = spellConfig.getLong(LAG);
 		if(spellConfig.contains(CLUSTER)) cluster = spellConfig.getInt(CLUSTER);
 		this.entity = element.loadInstance(Spawnable.class, spellConfig, ENTITY_CLASS, null, ENTITY_CONFIG, null);
 	}
@@ -38,6 +40,7 @@ public class RangedSpawn implements SpellEffect {
 		spellConfig.set(TIER, tier);
 		spellConfig.set(RANGE, range);
 		spellConfig.set(MIN_RANGE, minRange);
+		spellConfig.set(LAG, lag);
 		spellConfig.set(DELAY, delay);
 		spellConfig.set(CLUSTER, cluster);
 		

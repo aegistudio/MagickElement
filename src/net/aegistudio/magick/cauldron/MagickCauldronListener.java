@@ -5,7 +5,6 @@ import java.util.TreeSet;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +14,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.inventory.BlockCoordinate;
 import net.aegistudio.magick.particle.BlockParticle;
 import net.aegistudio.magick.particle.MagickParticle;
@@ -36,6 +36,21 @@ public class MagickCauldronListener implements Listener {
 		this.stillForging = stillForging;
 		this.tickBrewing = tickBrewing;
 		this.tickInterval = tickInterval;
+		
+		this.glyph = new MagickParticle(CompatibleSound.ORB_PICKUP.get(element)) {
+			public int tier() {
+				return 10;
+			}
+			
+			public float volume() {
+				return 0.07f;
+			}
+			
+			public float pitch() {
+				return 0.5f * TONAL_PITCH_LOOKUP[(int)Math.min(Math
+						.round(8.0f * Math.random()), 7)];
+			}
+		};
 	}
 	
 	@EventHandler
@@ -62,20 +77,7 @@ public class MagickCauldronListener implements Listener {
 	
 	private final BlockParticle blockParticle = new BlockParticle(Effect.HAPPY_VILLAGER, 6);
 	
-	private final MagickParticle glyph = new MagickParticle(Sound.ORB_PICKUP) {
-		public int tier() {
-			return 10;
-		}
-		
-		public float volume() {
-			return 0.07f;
-		}
-		
-		public float pitch() {
-			return 0.5f * TONAL_PITCH_LOOKUP[(int)Math.min(Math
-					.round(8.0f * Math.random()), 7)];
-		}
-	};
+	private final MagickParticle glyph;
 	
 	@EventHandler
 	public void onActivateCauldron(BlockIgniteEvent event) {
@@ -105,7 +107,7 @@ public class MagickCauldronListener implements Listener {
 				activatedCauldrons.remove(new BlockCoordinate(block.getLocation()));
 				blockParticle.show(block);
 				inventory.brewBlock(block);
-				block.getWorld().playSound(block.getLocation(), Sound.LEVEL_UP, 1.0f, 1.0f);
+				block.getWorld().playSound(block.getLocation(), CompatibleSound.LEVEL_UP.get(element), 1.0f, 1.0f);
 			}
 		};
 		if(event.getPlayer() != null) 

@@ -21,11 +21,13 @@ public class MutedBuffManager implements BuffManager {
 		}
 		@Override
 		public void run() {
-			this.record.increment(buff, -1);
-			if(!this.record.hasBuff(buff)) 
-				buff.remove(element, entity);
+			if(this.record.hasBuff(buff)) {
+				this.record.increment(buff, -1);
+				if(!this.record.hasBuff(buff)) 
+					buff.remove(element, entity);
+			}
 			
-			if(this.record.hasBuff())
+			if(!this.record.hasBuff())
 				entityBuffs.remove(entity.getEntityId());
 		}
 	}
@@ -58,5 +60,14 @@ public class MutedBuffManager implements BuffManager {
 	public void after(MagickElement element) {
 		this.element = element;
 	}
-	
+
+	@Override
+	public void unbuff(Entity entity, Buff buff) {
+		BuffRecord buffRecord = entityBuffs.get(entity.getEntityId());
+		if(buffRecord == null) return;
+		if(buffRecord.hasBuff(buff)) {
+			buffRecord.remove(buff);
+			buff.remove(element, entity);
+		}
+	}
 }
