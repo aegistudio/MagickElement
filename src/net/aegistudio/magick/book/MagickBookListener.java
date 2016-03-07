@@ -24,7 +24,12 @@ public class MagickBookListener implements Listener {
 		if(event.getAction() == Action.RIGHT_CLICK_AIR 
 				|| event.getAction() == Action.RIGHT_CLICK_BLOCK 
 				|| event.getAction() == Action.PHYSICAL) {
-			this.element.handler.handleSpell(event.getPlayer(), event.getItem());
+			try {
+				this.element.handler.handleSpell(event.getPlayer(), event.getItem());
+			}
+			catch(Throwable t) {
+				t.printStackTrace();
+			}
 			event.setCancelled(true);
 		}
 	}

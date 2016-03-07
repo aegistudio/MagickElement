@@ -10,7 +10,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import net.aegistudio.magick.AlgebraExpression;
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Parameter;
 import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.particle.PlayerParticle;
 import net.aegistudio.magick.spell.SpellEntry;
@@ -34,8 +36,10 @@ public class MpSpellHandler implements SpellHandler {
 		else {
 			List<String> spells = element.book.extractSpell(magickBook);
 			int spellPoint = 0;
-			for(String spell : spells) 
-				spellPoint += (int)(element.registry.getSpell(spell).handlerInfo);
+			for(String spell : spells) {
+				AlgebraExpression exp = (AlgebraExpression) (element.registry.getSpell(spell).handlerInfo);
+				spellPoint += exp.getInt(new Parameter(element.registry.getParameter(spell)));
+			}
 			
 			String finalMessage = insufficient;
 			if(spellPoint <= getMp(player)) {
@@ -67,15 +71,17 @@ public class MpSpellHandler implements SpellHandler {
 
 	public static final String MP_COST = "mpCost";
 	@Override
-	public void loadSpell(SpellEntry entry, ConfigurationSection configuration) {
-		int mpCost = 0;
+	public void loadSpell(SpellEntry entry, ConfigurationSection configuration) throws Exception {
+		AlgebraExpression mpExpression;
 		if(configuration.contains(MP_COST))
-			mpCost = configuration.getInt(MP_COST);
+			mpExpression = new AlgebraExpression(configuration.getString(MP_COST));
 		else {
-			for(Integer count : entry.spellPrice.elementPoint.values())
+			int mpCost = 0;
+			for(Integer count : entry.spellPrice.get(null).elementPoint.values())
 				if(count != null) mpCost += count;
+			mpExpression = new AlgebraExpression(Integer.toString(mpCost));
 		}
-		entry.handlerInfo = mpCost;
+		entry.handlerInfo = mpExpression;
 	}
 
 	@Override
@@ -182,8 +188,9 @@ public class MpSpellHandler implements SpellHandler {
 	}
 
 	@Override
-	public String infoSpell(SpellEntry entry) {
-		return mpConsume.replace("$required", Integer.toString((Integer)entry.handlerInfo));
+	public String infoSpell(SpellEntry entry, String[] arguments) {
+		return mpConsume.replace("$required", Integer.toString(
+				((AlgebraExpression)entry.handlerInfo).getInt(new Parameter(arguments))));
 	}
 
 	@Override

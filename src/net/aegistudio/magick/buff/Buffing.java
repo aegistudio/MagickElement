@@ -2,7 +2,7 @@ package net.aegistudio.magick.buff;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.spell.SpellEffect;
@@ -16,7 +16,7 @@ import net.aegistudio.magick.spell.SpellEffect;
 
 public class Buffing implements SpellEffect {
 	@Override
-	public void spell(MagickElement element, Player sender, Location location, String[] params) {
+	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
 		
 	}
 

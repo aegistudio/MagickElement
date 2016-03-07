@@ -62,11 +62,13 @@ public class CauldronInventoryHandler {
 			
 			for(String spell : book.getPages()) {
 				// Expel invalid spells from book content.
+				String[] param = element.registry.getParameter(spell);
 				SpellEntry spellEntry = element.registry.getSpell(spell);
+				
 				if(spellEntry == null) continue;
 
 				// Make calcuation for this book.
-				cost.accum(spellEntry.spellPrice, item.getAmount());
+				cost.accum(spellEntry.spellPrice.get(param), item.getAmount());
 				for(int i = 0; i < content.getSize(); i ++) {
 					// If enough spell cost is collected, end this progress.
 					if(cost.redundant()) break;

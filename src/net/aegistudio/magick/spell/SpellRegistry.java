@@ -17,7 +17,11 @@ public class SpellRegistry implements Module {
 	}
 	
 	public SpellEntry getSpell(String spellContent) {
-		return spellRegistries.get(spellContent.split(" ")[0]);
+		return spellRegistries.get(this.getParameter(spellContent)[0]);
+	}
+	
+	public String[] getParameter(String spellContent) {
+		return spellContent.split(" ");
 	}
 	
 	public void load(MagickElement element, ConfigurationSection spellSection) throws Exception {

@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -74,7 +73,7 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 	}
 
 	@Override
-	public void spell(MagickElement element, Player sender, Location location, String[] params) {
+	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
 		element.buff.buff(sender, this, duration);
 	}
 

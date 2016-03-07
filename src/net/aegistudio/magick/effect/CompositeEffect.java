@@ -6,8 +6,9 @@ import java.util.TreeMap;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
+import net.aegistudio.magick.AlgebraExpression;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.spell.SpellEffect;
 
@@ -24,7 +25,7 @@ public abstract class CompositeEffect implements SpellEffect {
 				CompositeEffectEntry compositeEntry = new CompositeEffectEntry();
 				compositeEntry.effect = effectInstance;
 				if(config.contains(subEffect.concat("Probability")))
-					compositeEntry.probability = config.getDouble(subEffect.concat("Probability"));
+					compositeEntry.probability = new AlgebraExpression(config.getString(subEffect.concat("Probability")));
 				
 				this.subEffects.put(subEffect, compositeEntry);
 			}
@@ -37,8 +38,13 @@ public abstract class CompositeEffect implements SpellEffect {
 			element.saveInstance(subEffect.getValue().effect, config, 
 					subEffect.getKey().concat("Class"), subEffect.getKey().concat("Config"));
 			
-			if(subEffect.getValue().probability < 1.0d)
-				config.set(subEffect.getKey().concat("Probability"), subEffect.getValue().probability);
+			if(subEffect.getValue().probability.isConstant()) {
+				if(subEffect.getValue().probability.getDouble(null) < 1.0)
+					config.set(subEffect.getKey().concat("Probability"), 
+							subEffect.getValue().probability.getExpression());
+			}
+			else config.set(subEffect.getKey().concat("Probability"), 
+					subEffect.getValue().probability.getExpression());
 		}
 	}
 
@@ -49,5 +55,5 @@ public abstract class CompositeEffect implements SpellEffect {
 	}
 
 	@Override
-	public abstract void spell(MagickElement element, Player sender, Location location, String[] params);
+	public abstract void spell(MagickElement element, Entity sender, Location location, String[] params);
 }

@@ -12,7 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
+import net.aegistudio.magick.AlgebraExpression;
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Parameter;
 import net.aegistudio.magick.buff.Buff;
 import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.particle.PlayerParticle;
@@ -80,32 +82,36 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	}
 
 	public static final String CHANTING_POINT = "chantingTime";
+	
 	@Override
-	public void loadSpell(SpellEntry entry, ConfigurationSection configuration) {
-		int chantingTime = 0;
+	public void loadSpell(SpellEntry entry, ConfigurationSection configuration) throws Exception {
+		AlgebraExpression expression;
 		if(configuration.contains(CHANTING_POINT)) 
-			chantingTime = configuration.getInt(CHANTING_POINT);
+			expression = new AlgebraExpression(configuration.getString(CHANTING_POINT));
 		else {
-			for(Integer points : entry.spellPrice.elementPoint.values())
+			int chantingTime = 0;
+			for(Integer points : entry.spellPrice.get(null).elementPoint.values())
 				chantingTime += points;
-			configuration.set(CHANTING_POINT, chantingTime);
+			expression = new AlgebraExpression(Integer.toString(chantingTime));
+			configuration.set(CHANTING_POINT, expression.getExpression());
 		}
-		entry.handlerInfo = chantingTime;
+		entry.handlerInfo = expression;
 	}
 
 	@Override
 	public void saveSpell(SpellEntry entry, ConfigurationSection configuration) {
-		int chantingTime = (int) entry.handlerInfo;
-		configuration.set(CHANTING_POINT, chantingTime);
+		AlgebraExpression chantingTime = (AlgebraExpression) entry.handlerInfo;
+		configuration.set(CHANTING_POINT, chantingTime.getExpression());
 	}
 
 	public static final String CHANTING_INFO = "chantingInfo";
 	public String chantingInfo = ChatColor.BOLD + "Require" + ChatColor.RESET + " $required " 
 			+ ChatColor.BLUE + "chanting" + ChatColor.RESET + " points.";
 	@Override
-	public String infoSpell(SpellEntry entry) {
-		int chantingTime = (int) entry.handlerInfo;
-		return chantingInfo.replace("$required", Integer.toString(chantingTime));
+	public String infoSpell(SpellEntry entry, String[] arguments) {
+		AlgebraExpression chantingTime = (AlgebraExpression) entry.handlerInfo;
+		return chantingInfo.replace("$required", Integer.toString(
+				chantingTime.getInt(new Parameter(arguments))));
 	}
 
 	public static final String CHANTING_BUFFNAME = "buffName";

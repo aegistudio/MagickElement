@@ -26,7 +26,7 @@ public class SpellCommand implements CommandHandle {
 				spellBuilder.append(ChatColor.RESET);
 			}
 			sender.sendMessage("  " + new String(spellBuilder));
-			sender.sendMessage(ChatColor.BOLD + "Tips" + ChatColor.RESET + ": use " + ChatColor.YELLOW + "spell [spellName]" 
+			sender.sendMessage(ChatColor.BOLD + "Tips" + ChatColor.RESET + ": use " + ChatColor.YELLOW + "spell <spellName> [<parameter>]" 
 					+ ChatColor.RESET + " to view detail of a spell.");
 		}
 		else {
@@ -39,7 +39,7 @@ public class SpellCommand implements CommandHandle {
 				sender.sendMessage(ChatColor.BOLD + "Spell" + ChatColor.RESET + ": " + ChatColor.AQUA + arguments[0]);
 				sender.sendMessage(ChatColor.BOLD + "Description" + ChatColor.RESET + ": " + spell.description);
 				
-				TreeMap<String, Integer> price = spell.spellPrice.elementPoint;
+				TreeMap<String, Integer> price = spell.spellPrice.get(arguments).elementPoint;
 				StringBuilder requirement = new StringBuilder(ChatColor.BOLD + "Require " + ChatColor.RESET);
 				boolean first = true;
 				for(Entry<String, Integer> priceEntry : price.entrySet()) {
@@ -52,10 +52,10 @@ public class SpellCommand implements CommandHandle {
 					requirement.append(priceEntry.getKey());
 					requirement.append(ChatColor.RESET);
 				}
-				requirement.append(" to enpower.");
+				requirement.append(" to empower.");
 				
 				sender.sendMessage(new String(requirement));
-				sender.sendMessage(element.handler.infoSpell(spell));
+				sender.sendMessage(element.handler.infoSpell(spell, arguments));
 			}
 		}
 	}

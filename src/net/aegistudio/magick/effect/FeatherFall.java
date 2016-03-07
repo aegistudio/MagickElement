@@ -5,7 +5,6 @@ import java.util.TreeSet;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -20,7 +19,7 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 	private final TreeSet<Integer> protecting = new TreeSet<Integer>();
 	
 	@Override
-	public void spell(MagickElement element, Player sender, Location location, String[] params) {
+	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
 		element.buff.buff(sender, this, duration);
 	}
 

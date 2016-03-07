@@ -2,7 +2,7 @@ package net.aegistudio.magick.seal;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.spell.SpellEffect;
@@ -52,7 +52,7 @@ public class MagickSealEffect implements SpellEffect {
 	}
 	
 	@Override
-	public void spell(MagickElement element, Player sender, Location location, String[] params) {
+	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
 		new MagickSealPaintTask(this, painterFactory.newPainter(sender)).start();
 	}
 }

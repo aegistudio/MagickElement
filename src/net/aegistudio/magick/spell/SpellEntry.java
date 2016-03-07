@@ -7,11 +7,11 @@ import org.bukkit.inventory.ItemStack;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Module;
-import net.aegistudio.magick.element.ElementDefinition;
+import net.aegistudio.magick.element.ElementExpression;
 
 public class SpellEntry implements Module {
 	public SpellEffect effect;
-	public ElementDefinition spellPrice = new ElementDefinition();
+	public ElementExpression spellPrice = new ElementExpression();
 	public Object handlerInfo;
 	public String description;
 	

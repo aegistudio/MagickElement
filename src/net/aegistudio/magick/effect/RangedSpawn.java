@@ -2,7 +2,7 @@ package net.aegistudio.magick.effect;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Spawnable;
@@ -20,7 +20,7 @@ public class RangedSpawn implements SpellEffect {
 	public Spawnable entity;
 	
 	@Override
-	public void spell(MagickElement element, Player sender, Location location, String[] params) {
+	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
 		new RangedSpawnRunnable(element, this, sender.getLocation()).start();
 	}
 	

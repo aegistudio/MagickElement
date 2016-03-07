@@ -4,7 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
+import net.aegistudio.magick.AlgebraExpression;
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Parameter;
 import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.particle.MagickParticle;
 
@@ -17,8 +19,11 @@ public class ChantRecordEntry {
 	public ChantRecordEntry(MagickElement element, ItemStack magickBook) {
 		this.magickBook = magickBook;
 		chantTotal = chantStatus = 0;
-		for(String spell : element.book.extractSpell(magickBook)) 
-			chantTotal += (int)(element.registry.getSpell(spell).handlerInfo);
+		for(String spell : element.book.extractSpell(magickBook)) {
+			AlgebraExpression exp = (AlgebraExpression)(element.registry.getSpell(spell).handlerInfo);
+			chantTotal += exp.getInt(new Parameter(element.registry.getParameter(spell)));
+		}
+		
 		this.chantParticle = new MagickParticle(CompatibleSound.LEVEL_UP.get(element)) {
 			protected int tier() {
 				return chantStatus;
