@@ -23,17 +23,17 @@ import net.aegistudio.magick.spell.SpellEffect;
  * @author aegistudio
  */
 
-public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
-	public static final String RESISTENCE_BUFFNAME = "buffName";
-	public String buffName = "Resistence";
+public class PotionResistance implements SpellEffect, Buff, Runnable, Listener {
+	public static final String RESISTANCE_BUFFNAME = "buffName";
+	public String buffName = "Resistance";
 	
 	public static final String POTIONEFFECT_TYPE = "potion";
 	public PotionEffectType potionEffect;
 	
-	public static final String RESISTENCE_BEGIN = "beginEffect";
+	public static final String RESISTANCE_BEGIN = "beginEffect";
 	public String beginEffect;
 	
-	public static final String RESISTENCE_END = "endEffect";
+	public static final String RESISTANCE_END = "endEffect";
 	public String endEffect;
 	
 	public static final String DURATION = "duration";
@@ -41,15 +41,15 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 	
 	private MagickElement element;
 	
-	public PotionResistence() {}
+	public PotionResistance() {}
 	
-	public PotionResistence(PotionEffectType effect) {
+	public PotionResistance(PotionEffectType effect) {
 		potionEffect = effect;
 		beginEffect = "You're now immune to " + effect.getName().toLowerCase() + "!";
 		endEffect = "You're vulnerable to " + effect.getName().toLowerCase() + " again...";
 	}
 	
-	private final HashSet<LivingEntity> resistence = new HashSet<LivingEntity>();
+	private final HashSet<LivingEntity> resistance = new HashSet<LivingEntity>();
 	
 	@Override
 	public String name() {
@@ -62,14 +62,14 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 		LivingEntity living = ((LivingEntity)entity);
 		living.removePotionEffect(potionEffect);
 		if(beginEffect != null) entity.sendMessage(beginEffect);
-		this.resistence.add((LivingEntity) entity);
+		this.resistance.add((LivingEntity) entity);
 	}
 
 	@Override
 	public void remove(MagickElement element, Entity entity) {
 		if(!(entity instanceof LivingEntity)) return;
 		if(endEffect != null) entity.sendMessage(endEffect);
-		this.resistence.remove(entity);
+		this.resistance.remove(entity);
 	}
 
 	@Override
@@ -79,12 +79,12 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 
 	@Override
 	public void load(MagickElement element, ConfigurationSection spellConfig) {
-		this.beginEffect = spellConfig.getString(RESISTENCE_BEGIN);
-		this.endEffect = spellConfig.getString(RESISTENCE_END);
+		this.beginEffect = spellConfig.getString(RESISTANCE_BEGIN);
+		this.endEffect = spellConfig.getString(RESISTANCE_END);
 		if(spellConfig.contains(DURATION))
 			this.duration = spellConfig.getInt(DURATION);
-		if(spellConfig.contains(RESISTENCE_BUFFNAME))
-			this.buffName = spellConfig.getString(RESISTENCE_BUFFNAME);
+		if(spellConfig.contains(RESISTANCE_BUFFNAME))
+			this.buffName = spellConfig.getString(RESISTANCE_BUFFNAME);
 		if(spellConfig.contains(POTIONEFFECT_TYPE))
 			this.potionEffect = PotionEffectType.getByName(spellConfig.getString(POTIONEFFECT_TYPE));
 	}
@@ -92,9 +92,9 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 	@Override
 	public void save(MagickElement element, ConfigurationSection spellConfig) {
 		spellConfig.set(DURATION, duration);
-		spellConfig.set(RESISTENCE_BEGIN, beginEffect);
-		spellConfig.set(RESISTENCE_END, endEffect);
-		spellConfig.set(RESISTENCE_BUFFNAME, buffName);
+		spellConfig.set(RESISTANCE_BEGIN, beginEffect);
+		spellConfig.set(RESISTANCE_END, endEffect);
+		spellConfig.set(RESISTANCE_BUFFNAME, buffName);
 		spellConfig.set(POTIONEFFECT_TYPE, potionEffect.getName());
 	}
 
@@ -111,7 +111,7 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 	
 	@EventHandler
 	public void handleDamage(EntityDamageEvent event) {
-		if(this.resistence.contains(event.getEntity())) {
+		if(this.resistance.contains(event.getEntity())) {
 			if(event.getCause() == DamageCause.WITHER && this.potionEffect == PotionEffectType.WITHER) {
 				event.setCancelled(true);
 				doProtect();
@@ -127,7 +127,7 @@ public class PotionResistence implements SpellEffect, Buff, Runnable, Listener {
 	
 	@Override
 	public void run() {
-		for(LivingEntity entity : resistence) 
+		for(LivingEntity entity : resistance) 
 			entity.removePotionEffect(potionEffect);
 	}
 

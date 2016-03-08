@@ -166,7 +166,7 @@ public class MagickElement extends JavaPlugin {
 		if(command.getName().equalsIgnoreCase("magick")) {
 			sender.sendMessage("");	// A new line
 			if(arguments.length == 0) {
-				sender.sendMessage(ChatColor.BOLD + "Usage" + ChatColor.RESET + ": /" + label + " [subcommand] [parameters]");
+				sender.sendMessage(ChatColor.BOLD + "Usage" + ChatColor.RESET + ": /" + label + " <subcommand> [<parameters>]");
 				sender.sendMessage(ChatColor.BOLD + "Listing " + ChatColor.RESET + ChatColor.YELLOW + "subcommands" + ChatColor.RESET + ": ");
 				for(String commandName : commands.keySet()) {
 					CommandHandle service = commands.get(commandName);

@@ -3,7 +3,7 @@ package net.aegistudio.magick;
 import org.bukkit.potion.PotionEffectType;
 import net.aegistudio.magick.effect.RangedSpawn;
 import net.aegistudio.magick.effect.FeatherFall;
-import net.aegistudio.magick.effect.PotionResistence;
+import net.aegistudio.magick.effect.PotionResistance;
 import net.aegistudio.magick.effect.VampireHand;
 import net.aegistudio.magick.element.ElementExpression;
 import net.aegistudio.magick.entity.Lightning;
@@ -49,8 +49,8 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 		
 		{
 			SpellEntry antidote = new SpellEntry(element);
-			PotionResistence antidoteSpell 
-				= new PotionResistence(PotionEffectType.POISON);
+			PotionResistance antidoteSpell 
+				= new PotionResistance(PotionEffectType.POISON);
 			antidote.effect = antidoteSpell;
 			
 			antidoteSpell.buffName = "Antidote";
@@ -65,8 +65,8 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 		
 		{
 			SpellEntry vitality = new SpellEntry(element);
-			PotionResistence vitalitySpell 
-				= new PotionResistence(PotionEffectType.WITHER);
+			PotionResistance vitalitySpell 
+				= new PotionResistance(PotionEffectType.WITHER);
 			vitality.effect = vitalitySpell;
 			
 			vitalitySpell.buffName = "Vitality";
@@ -80,8 +80,8 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 		
 		{
 			SpellEntry determined = new SpellEntry(element);
-			PotionResistence determineSpell 
-				= new PotionResistence(PotionEffectType.HARM);
+			PotionResistance determineSpell 
+				= new PotionResistance(PotionEffectType.HARM);
 			determined.effect = determineSpell;
 			
 			determineSpell.buffName = "Determined";

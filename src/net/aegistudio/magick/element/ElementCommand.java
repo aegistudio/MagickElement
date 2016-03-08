@@ -16,7 +16,7 @@ public class ElementCommand implements CommandHandle {
 	public void handle(MagickElement element, CommandSender sender, String[] arguments) {
 		if(arguments.length == 0) {
 			sender.sendMessage("You seem not to specify the " + ChatColor.LIGHT_PURPLE + "element" + ChatColor.RESET + " you search for!");
-			sender.sendMessage(ChatColor.BOLD + "Usage" + ChatColor.RESET + ": "  + ChatColor.YELLOW + "element [name]");
+			sender.sendMessage(ChatColor.BOLD + "Usage" + ChatColor.RESET + ": "  + ChatColor.YELLOW + "element <name>");
 		}
 		else {
 			int total = 0;
