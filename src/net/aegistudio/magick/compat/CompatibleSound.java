@@ -33,7 +33,7 @@ public enum CompatibleSound {
 	}
 	
 	public Sound get(MagickElement element) {
-		String version = element.getServer().getVersion();
+		String version = element.getServer().getBukkitVersion();
 		for(int i = 0; i < this.mapping.length - 1; i ++) {
 			String[] entry = this.mapping[i];
 			String[] next = this.mapping[i + 1];
