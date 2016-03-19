@@ -86,8 +86,8 @@ public class MpSpellHandler implements SpellHandler {
 
 	@Override
 	public void saveSpell(SpellEntry entry, ConfigurationSection configuration) {
-		int mpCost = (int) entry.handlerInfo;
-		configuration.set(MP_COST, mpCost);
+		AlgebraExpression mpExpression = (AlgebraExpression) entry.handlerInfo;
+		configuration.set(MP_COST, mpExpression.getExpression());
 	}
 	
 	public int getMp(Player player) {

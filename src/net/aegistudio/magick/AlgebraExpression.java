@@ -53,4 +53,8 @@ public class AlgebraExpression {
 	public String getExpression() {
 		return this.expressionString;
 	}
+	
+	public String toString() {
+		return this.getExpression();
+	}
 }

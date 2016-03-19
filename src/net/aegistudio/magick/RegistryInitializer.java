@@ -30,7 +30,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			lightning.spellPrice.setExpression("divine", "10");
 			lightning.spellPrice.setExpression("evil", "20");
 			
-			lightning.handlerInfo = 50;
+			lightning.handlerInfo = new AlgebraExpression("50");
 			registry.spellRegistries.put("lightning", lightning);
 		}
 		
@@ -43,7 +43,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			featherFall.spellPrice = new ElementExpression();
 			featherFall.spellPrice.setExpression("wind", "80");
 			
-			featherFall.handlerInfo = 20;
+			featherFall.handlerInfo = new AlgebraExpression("20");
 			registry.spellRegistries.put("featherFall", featherFall);
 		}
 		
@@ -59,7 +59,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			antidote.spellPrice.setExpression("terra", "20");
 			antidote.spellPrice.setExpression("water", "10");
 			
-			antidote.handlerInfo = 5;
+			antidote.handlerInfo = new AlgebraExpression("5");
 			registry.spellRegistries.put("antidote", antidote);
 		}
 		
@@ -74,7 +74,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			vitality.spellPrice = new ElementExpression();
 			vitality.spellPrice.setExpression("terra", "40");
 			
-			vitality.handlerInfo = 5;
+			vitality.handlerInfo = new AlgebraExpression("5");
 			registry.spellRegistries.put("vitality", vitality);
 		}
 		
@@ -98,7 +98,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			determined.spellPrice.setExpression("wind", "5");
 			determined.spellPrice.setExpression("terra", "5");
 			
-			determined.handlerInfo = 15;
+			determined.handlerInfo = new AlgebraExpression("15");
 			registry.spellRegistries.put("determined", determined);
 		}
 		
@@ -115,7 +115,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			vampire.spellPrice.setExpression("ice", "10");
 			vampire.spellPrice.setExpression("sticky", "10");
 			
-			vampire.handlerInfo = 20;
+			vampire.handlerInfo = new AlgebraExpression("20");
 			registry.spellRegistries.put("vampire", vampire);
 		}
 	}
