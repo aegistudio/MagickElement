@@ -56,6 +56,7 @@ public class MagickCauldronListener implements Listener {
 	@EventHandler
 	public void onInteractCauldron(PlayerInteractEvent event) {
 		if(event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+		if(event.getPlayer().isSneaking()) return;
 		Block block = event.getClickedBlock();
 		if(block == null) return;
 		if(block.getType() != Material.CAULDRON) return;
