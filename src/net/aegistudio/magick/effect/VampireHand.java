@@ -10,21 +10,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
+import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.buff.Buff;
 import net.aegistudio.magick.spell.SpellEffect;
 
 public class VampireHand implements SpellEffect, Buff, Listener {
 	public TreeSet<Integer> vampire = new TreeSet<Integer>();
-	public static final String DURATION = "duration"; public int duration = 200;
-	public static final String ADSORPTION = "adsorption"; public double adsorption = .5;
+	public @Configurable(Configurable.Type.CONSTANT) int duration = 200;
+	public @Configurable(Configurable.Type.CONSTANT) double adsorption = .5;
 	
-	public static final String BEGIN_VAMPIRE = "beginVampire";
-	public String beginVampire = "You've grown a pair of nails teeth...";
-	public static final String END_VAMPIRE = "endVampire";
-	public String endVampire = "You've regain your sanity...";
-	public static final String VAMPIRE_BUFFNAME = "buffName";
-	public String buffName = "Vampire Hand";
+	public @Configurable(Configurable.Type.LOCALE) String beginVampire = "You've grown a pair of nails teeth...";
+	public @Configurable(Configurable.Type.LOCALE) String endVampire = "You've regain your sanity...";
+	public @Configurable(Configurable.Type.STRING) String buffName = "Vampire Hand";
 	
 	@Override
 	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
@@ -32,22 +30,13 @@ public class VampireHand implements SpellEffect, Buff, Listener {
 	}
 
 	@Override
-	public void load(MagickElement element, ConfigurationSection spellConfig) {
-		if(spellConfig.contains(DURATION)) duration = spellConfig.getInt(DURATION);
-		if(spellConfig.contains(ADSORPTION)) adsorption = spellConfig.getDouble(ADSORPTION);
-		beginVampire = spellConfig.getString(BEGIN_VAMPIRE);
-		endVampire = spellConfig.getString(END_VAMPIRE);
-		if(spellConfig.contains(VAMPIRE_BUFFNAME)) 
-			buffName = spellConfig.getString(VAMPIRE_BUFFNAME);
+	public void load(MagickElement element, ConfigurationSection spellConfig) throws Exception {
+		element.loadConfigurable(this, spellConfig);
 	}
 
 	@Override
-	public void save(MagickElement element, ConfigurationSection spellConfig) {
-		spellConfig.set(DURATION, duration);
-		spellConfig.set(ADSORPTION, adsorption);
-		spellConfig.set(BEGIN_VAMPIRE, beginVampire);
-		spellConfig.set(END_VAMPIRE, endVampire);
-		spellConfig.set(VAMPIRE_BUFFNAME, buffName);
+	public void save(MagickElement element, ConfigurationSection spellConfig) throws Exception {
+		element.saveConfigurable(this, spellConfig);
 	}
 
 	@Override

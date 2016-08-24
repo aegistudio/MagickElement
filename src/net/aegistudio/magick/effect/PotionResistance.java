@@ -14,6 +14,7 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.buff.Buff;
 import net.aegistudio.magick.spell.SpellEffect;
@@ -24,20 +25,13 @@ import net.aegistudio.magick.spell.SpellEffect;
  */
 
 public class PotionResistance implements SpellEffect, Buff, Runnable, Listener {
-	public static final String RESISTANCE_BUFFNAME = "buffName";
-	public String buffName = "Resistance";
+	public @Configurable(Configurable.Type.STRING) String buffName = "Resistance";
+	public @Configurable(Configurable.Type.LOCALE) String beginEffect;
+	public @Configurable(Configurable.Type.LOCALE) String endEffect;
+	public @Configurable(Configurable.Type.CONSTANT) int duration = 50;
 	
 	public static final String POTIONEFFECT_TYPE = "potion";
 	public PotionEffectType potionEffect;
-	
-	public static final String RESISTANCE_BEGIN = "beginEffect";
-	public String beginEffect;
-	
-	public static final String RESISTANCE_END = "endEffect";
-	public String endEffect;
-	
-	public static final String DURATION = "duration";
-	public int duration = 50;
 	
 	private MagickElement element;
 	
@@ -78,23 +72,15 @@ public class PotionResistance implements SpellEffect, Buff, Runnable, Listener {
 	}
 
 	@Override
-	public void load(MagickElement element, ConfigurationSection spellConfig) {
-		this.beginEffect = spellConfig.getString(RESISTANCE_BEGIN);
-		this.endEffect = spellConfig.getString(RESISTANCE_END);
-		if(spellConfig.contains(DURATION))
-			this.duration = spellConfig.getInt(DURATION);
-		if(spellConfig.contains(RESISTANCE_BUFFNAME))
-			this.buffName = spellConfig.getString(RESISTANCE_BUFFNAME);
+	public void load(MagickElement element, ConfigurationSection spellConfig) throws Exception {
+		element.loadConfigurable(this, spellConfig);
 		if(spellConfig.contains(POTIONEFFECT_TYPE))
 			this.potionEffect = PotionEffectType.getByName(spellConfig.getString(POTIONEFFECT_TYPE));
 	}
 
 	@Override
-	public void save(MagickElement element, ConfigurationSection spellConfig) {
-		spellConfig.set(DURATION, duration);
-		spellConfig.set(RESISTANCE_BEGIN, beginEffect);
-		spellConfig.set(RESISTANCE_END, endEffect);
-		spellConfig.set(RESISTANCE_BUFFNAME, buffName);
+	public void save(MagickElement element, ConfigurationSection spellConfig) throws Exception {
+		element.saveConfigurable(this, spellConfig);
 		spellConfig.set(POTIONEFFECT_TYPE, potionEffect.getName());
 	}
 

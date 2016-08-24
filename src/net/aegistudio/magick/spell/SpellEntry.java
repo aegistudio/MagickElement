@@ -27,20 +27,11 @@ public class SpellEntry implements Module {
 	
 	public static final String ELEMENT_REQUIRED = "elementRequired";
 	
-	@SuppressWarnings("unchecked")
 	public void load(MagickElement element, ConfigurationSection configuration) throws Exception {
 		// Load spell class.
-		String effectClazz = configuration.getString(EFFECT_CLASS);
-		if(effectClazz == null) return;
-		effect = ((Class<? extends SpellEffect>)Class
-				.forName(effectClazz)).newInstance();
-		
-		// Load spell effect config.
-		if(!configuration.contains(EFFECT_CONFIG))
-			configuration.createSection(EFFECT_CONFIG);
-		ConfigurationSection effectConfig = configuration
-				.getConfigurationSection(EFFECT_CONFIG);
-		effect.load(element, effectConfig);
+		if(!configuration.contains(EFFECT_CLASS)) return;
+		effect = element.loadInstance(SpellEffect.class, configuration, 
+				EFFECT_CLASS, null, EFFECT_CONFIG, null);
 		
 		// Load spell price config.
 		if(!configuration.contains(ELEMENT_REQUIRED))

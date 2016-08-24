@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.buff.Buff;
 import net.aegistudio.magick.compat.CompatibleSound;
@@ -23,29 +24,21 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 		element.buff.buff(sender, this, duration);
 	}
 
-	public static final String EFFECT_BEGIN = "effectBegin"; public String effectBegin = "You feel you were as light as a swallow...";
-	public static final String EFFECT_END = "effectEnd"; public String effectEnd = "You could feel the pull of gravity again...";
+	public @Configurable(Configurable.Type.LOCALE) String effectBegin = "You feel you were as light as a swallow...";
+	public @Configurable(Configurable.Type.LOCALE) String effectEnd = "You could feel the pull of gravity again...";
 	
-	public static final String DURATION = "duration"; public long duration = 200;
-	public static final String VELOCITY = "velocity"; public double velocity = 0.2;
-	public static final String EFFECT_BUFFNAME = "buffName"; public String buffName = "Feather Fall";
+	public @Configurable(Configurable.Type.CONSTANT) long duration = 200;
+	public @Configurable(Configurable.Type.CONSTANT) double velocity = 0.2;
+	public @Configurable(Configurable.Type.STRING) String buffName = "Feather Fall";
 	
 	@Override
-	public void load(MagickElement element, ConfigurationSection spellConfig) {
-		effectBegin = spellConfig.getString(EFFECT_BEGIN);
-		effectEnd = spellConfig.getString(EFFECT_END);
-		if(spellConfig.contains(DURATION)) duration = spellConfig.getLong(DURATION);
-		if(spellConfig.contains(VELOCITY)) velocity = spellConfig.getDouble(VELOCITY);
-		if(spellConfig.contains(EFFECT_BUFFNAME)) buffName = spellConfig.getString(EFFECT_BUFFNAME);
+	public void load(MagickElement element, ConfigurationSection spellConfig) throws Exception {
+		element.loadConfigurable(this, spellConfig);
 	}
 
 	@Override
-	public void save(MagickElement element, ConfigurationSection spellConfig) {
-		spellConfig.set(EFFECT_BEGIN, effectBegin);
-		spellConfig.set(EFFECT_END, effectEnd);
-		spellConfig.set(DURATION, duration);
-		spellConfig.set(VELOCITY, velocity);
-		spellConfig.set(EFFECT_BUFFNAME, buffName);
+	public void save(MagickElement element, ConfigurationSection spellConfig) throws Exception {
+		element.saveConfigurable(this, spellConfig);
 	}
 
 	private MagickParticle feather;

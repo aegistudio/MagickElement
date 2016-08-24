@@ -4,17 +4,19 @@ import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 
+import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Spawnable;
 import net.aegistudio.magick.spell.SpellEffect;
 
 public class RangedSpawn implements SpellEffect {
-	public static final String TIER = "tier"; public int tier = 1;
-	public static final String CLUSTER = "cluster"; public int cluster = 1;
-	public static final String RANGE = "maxRange";	public double range = 5.0;
-	public static final String MIN_RANGE = "minRange"; public double minRange = 1.0;
-	public static final String LAG = "lag"; public long lag = 0;
-	public static final String DELAY = "delay"; public long delay = 40;
+	public @Configurable(Configurable.Type.CONSTANT) int tier = 1;
+	public @Configurable(Configurable.Type.CONSTANT) int cluster = 1;
+	public @Configurable(value = Configurable.Type.CONSTANT, name = "maxRange") double range = 5.0;
+	public @Configurable(value = Configurable.Type.CONSTANT, name = "minRange") double minRange = 1.0;
+	public @Configurable(Configurable.Type.CONSTANT) long lag = 0;
+	public @Configurable(Configurable.Type.CONSTANT) long delay = 40;
+	
 	public static final String ENTITY_CLASS = "entityClass"; 
 	public static final String ENTITY_CONFIG = "entityConfig";
 	public Spawnable entity;
@@ -26,24 +28,13 @@ public class RangedSpawn implements SpellEffect {
 	
 	@Override
 	public void load(MagickElement element, ConfigurationSection spellConfig) throws Exception {
-		if(spellConfig.contains(TIER)) tier = spellConfig.getInt(TIER);
-		if(spellConfig.contains(RANGE)) range = spellConfig.getDouble(RANGE);
-		if(spellConfig.contains(MIN_RANGE)) minRange = spellConfig.getDouble(MIN_RANGE);
-		if(spellConfig.contains(DELAY)) delay = spellConfig.getLong(DELAY);
-		if(spellConfig.contains(LAG)) lag = spellConfig.getLong(LAG);
-		if(spellConfig.contains(CLUSTER)) cluster = spellConfig.getInt(CLUSTER);
+		element.loadConfigurable(this, spellConfig);
 		this.entity = element.loadInstance(Spawnable.class, spellConfig, ENTITY_CLASS, null, ENTITY_CONFIG, null);
 	}
 
 	@Override
 	public void save(MagickElement element, ConfigurationSection spellConfig) throws Exception {
-		spellConfig.set(TIER, tier);
-		spellConfig.set(RANGE, range);
-		spellConfig.set(MIN_RANGE, minRange);
-		spellConfig.set(LAG, lag);
-		spellConfig.set(DELAY, delay);
-		spellConfig.set(CLUSTER, cluster);
-		
+		element.saveConfigurable(this, spellConfig);
 		element.saveInstance(entity, spellConfig, ENTITY_CLASS, ENTITY_CONFIG);
 	}
 

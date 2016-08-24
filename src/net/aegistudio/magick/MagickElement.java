@@ -1,5 +1,11 @@
 package net.aegistudio.magick;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Properties;
 import java.util.TreeMap;
 
 import org.bukkit.command.Command;
@@ -47,12 +53,40 @@ public class MagickElement extends JavaPlugin {
 	public static final String BUFFMANAGER_CONFIG = "buffConfig";
 	public BuffManager buff;
 	
+	public static final String MAPC_PATH = "mapc.properties";
+	public TreeMap<String, Class<?>> abbrClassTable;
+	public Class<?> lookForClass(String name) throws ClassNotFoundException {
+		Class<?> clazz = abbrClassTable.get(name);
+		return (clazz == null)? Class.forName(name) : clazz;
+	}
+	
+	public HashMap<Class<?>, String> classAbbrTable;
+	public String lookForName(Class<?> clazz) {
+		String className = classAbbrTable.get(clazz);
+		return (className == null)? clazz.getName() : className;
+	}
+	
 	public void onEnable() {
 		try {
 			this.reloadConfig();
 			FileConfiguration config = super.getConfig();
 			commands = new TreeMap<String, CommandHandle>();
 
+			// ClassTable
+			abbrClassTable = new TreeMap<String, Class<?>>();
+			classAbbrTable = new HashMap<Class<?>, String>();
+			super.saveResource(MAPC_PATH, false);
+			
+			Properties mapc = new Properties();
+			mapc.load(new FileInputStream(new File(super.getDataFolder(), MAPC_PATH)));
+			for(Entry<Object, Object> e : mapc.entrySet()) {
+				String key = (String) e.getKey();
+				Class<?> value = Class.forName((String) e.getValue());
+				
+				abbrClassTable.put(key, value);
+				classAbbrTable.putIfAbsent(value, key);
+			}
+			
 			// Book
 			BookFactory bookListenerFactory = 
 					this.loadInstance(BookFactory.class, config, BOOK_FACTORY, PagingBookFactory.class, BOOK_CONFIG, null);
@@ -108,9 +142,9 @@ public class MagickElement extends JavaPlugin {
 	public <T extends Module> T loadInstance(Class<T> target, ConfigurationSection parent, 
 			String classEntry, Class<? extends T> defaultClazz, String configEntry, Initializer<T> abscence) throws Exception {
 		String classValue = parent.getString(classEntry);
-		if(classValue == null) parent.set(classEntry, classValue = defaultClazz.getName());
+		if(classValue == null) parent.set(classEntry, classValue = lookForName(defaultClazz));
 		
-		Class<T> moduleClazz = (Class<T>) Class.forName(classValue);
+		Class<T> moduleClazz = (Class<T>) lookForClass(classValue);
 		T instance = moduleClazz.newInstance();
 		
 		this.loadConfig(instance, parent, configEntry, abscence);
@@ -126,7 +160,7 @@ public class MagickElement extends JavaPlugin {
 	
 	public <T extends Module> void saveInstance(T instance, ConfigurationSection config, 
 			String classEntry, String configEntry) throws Exception {
-		config.set(classEntry, instance.getClass().getName());
+		config.set(classEntry, lookForName(instance.getClass()));
 		
 		this.saveConfig(instance, config, configEntry);
 	}
@@ -147,6 +181,26 @@ public class MagickElement extends JavaPlugin {
 		}
 		instance.after(this);
 		return instance;
+	}
+	
+	private void configurable(Object instance, ConfigurationSection current, boolean load) throws Exception {
+		Field[] fields = instance.getClass().getFields();
+		for(Field field : fields) {
+			Configurable config = field.getAnnotation(Configurable.class);
+			if(config != null) {
+				String fieldName = config.name().length() > 0? config.name() : field.getName();
+				if(load) config.value().load(fieldName, field, instance, this, current);
+				else config.value().save(fieldName, field, instance, this, current);
+			}
+		}
+	}
+	
+	public void loadConfigurable(Object instance, ConfigurationSection current) throws Exception {
+		configurable(instance, current, true);
+	}
+	
+	public void saveConfigurable(Object instance, ConfigurationSection current) throws Exception {
+		configurable(instance, current, false);
 	}
 	
 	public void onDisable() {
