@@ -7,7 +7,7 @@ import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Module;
 
 public interface BuffManager extends Module {
-	public void buff(Entity entity, Buff buff, long duration);
+	public void buff(Entity entity, Buff buff, long duration, String[] parameters);
 	
 	public void unbuff(Entity entity, Buff buff);
 	

@@ -8,12 +8,14 @@ public class RangedSpawnRunnable implements Runnable {
 	
 	MagickElement element;
 	RangedSpawn spawn; Location location;
-	int tiersRemained;
-	public RangedSpawnRunnable(MagickElement element, RangedSpawn entityRain, Location location) {
+	int tiersRemained; String[] arguments;
+	public RangedSpawnRunnable(MagickElement element, RangedSpawn entityRain, 
+			Location location, String[] arguments) {
 		this.element = element;
 		this.spawn = entityRain;
 		this.location = location;
 		this.tiersRemained = spawn.tier;
+		this.arguments = arguments;
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class RangedSpawnRunnable implements Runnable {
 			
 			Location loc = location.clone().add((spawn.minRange + dif) * cos, 
 					0, (spawn.minRange + dif) * sin);
-			spawn.entity.spawn(loc);
+			spawn.entity.spawn(loc, arguments);
 		}
 		this.next();
 	}

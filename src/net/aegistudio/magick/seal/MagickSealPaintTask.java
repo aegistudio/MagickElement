@@ -5,10 +5,12 @@ public class MagickSealPaintTask implements Runnable {
 	private final MagickSealEffect seal;
 	private int ticks;
 	private final Painter painter;
-	public MagickSealPaintTask(MagickSealEffect seal, Painter painter) {
+	private final String[] arguments;
+	public MagickSealPaintTask(MagickSealEffect seal, Painter painter, String[] arguments) {
 		this.seal = seal;
 		this.ticks = seal.totalPaintTick;
 		this.painter = painter;
+		this.arguments = arguments;
 	}
 	
 	int task = -1;
@@ -22,7 +24,7 @@ public class MagickSealPaintTask implements Runnable {
 	@Override
 	public void run() {
 		if(ticks > 0) {
-			this.seal.generator.generate(painter);
+			this.seal.generator.generate(painter, arguments);
 			this.painter.end();
 			ticks --;
 		}

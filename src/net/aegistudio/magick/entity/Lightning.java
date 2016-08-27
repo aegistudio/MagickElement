@@ -18,7 +18,7 @@ public class Lightning implements Spawnable {
 	public void after(MagickElement element) {		}
 
 	@Override
-	public void spawn(Location location) {
+	public void spawn(Location location, String[] arguments) {
 		location.getWorld().strikeLightning(location);
 	}
 }

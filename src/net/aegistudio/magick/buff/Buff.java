@@ -9,7 +9,7 @@ public interface Buff {
 	public String name();
 	
 	/** called when buff begins. **/
-	public void buff(MagickElement element, Entity entity);
+	public void buff(MagickElement element, Entity entity, String[] parameter);
 	
 	/** called when buff ends. **/
 	public void remove(MagickElement element, Entity entity);

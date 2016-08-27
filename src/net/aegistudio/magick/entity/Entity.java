@@ -31,7 +31,7 @@ public class Entity implements Spawnable {
 	}
 
 	@Override
-	public void spawn(Location location) {
+	public void spawn(Location location, String[] arguments) {
 		try {
 			org.bukkit.entity.Entity entity = location.getWorld().spawnEntity(location, type);
 			Method getHandle = entity.getClass().getDeclaredMethod("getHandle");

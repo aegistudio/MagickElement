@@ -5,6 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -58,13 +59,17 @@ public @interface Configurable {
 			@Override
 			public void load(String fieldName, Field field, Object instance, MagickElement element,
 					ConfigurationSection section) throws Exception{
-				
+				if(section.contains(fieldName)) {
+					String expression = section.getString(fieldName);
+					field.set(instance, new AlgebraExpression(expression));
+				}
 			}
 
 			@Override
 			public void save(String fieldName, Field field, Object instance, MagickElement element,
 					ConfigurationSection section) throws Exception{
-				
+				AlgebraExpression expression = (AlgebraExpression) field.get(fieldName);
+				section.set(fieldName, expression.getExpression());
 			}
 			
 		},	/** must be expressoin type **/
@@ -96,7 +101,28 @@ public @interface Configurable {
 				if(clazz == float.class) value = (double)(float) value;
 				section.set(fieldName, value);
 			}
-		}	/** must be constant (int, float, etc) type **/;
+		}	/** must be constant (int, float, etc) type **/,
+		ENUM {
+
+			@Override
+			public void load(String fieldName, Field field, Object instance, MagickElement element,
+					ConfigurationSection section) throws Exception {
+				if(!section.contains(fieldName)) return;
+				
+				Method valueOf = field.getType().getMethod("valueOf", String.class);
+				Object enumObj = valueOf.invoke(null, section.getString(fieldName));
+				field.set(instance, enumObj);
+			}
+
+			@SuppressWarnings("rawtypes")
+			@Override
+			public void save(String fieldName, Field field, Object instance, MagickElement element,
+					ConfigurationSection section) throws Exception {
+				Enum value = (Enum)field.get(instance);
+				section.set(fieldName, value.name());
+			}
+			
+		}	/** must be enumerations **/;
 		
 		public abstract void load(String fieldName, Field field, Object instance, MagickElement element, 
 				ConfigurationSection section) throws Exception;

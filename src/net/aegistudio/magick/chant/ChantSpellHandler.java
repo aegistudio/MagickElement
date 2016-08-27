@@ -78,7 +78,7 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	public void handleSpell(Player player, ItemStack magickBook) {
 		if(!this.chantRecord.containsKey(player.getEntityId()))
 			this.beginChant(player, magickBook);
-		element.buff.buff(player, this, chantLimit);
+		element.buff.buff(player, this, chantLimit, null);
 	}
 
 	public static final String CHANTING_POINT = "chantingTime";
@@ -136,7 +136,7 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 	public int pointPerChant = 5;
 	
 	@Override
-	public void buff(MagickElement element, Entity entity) {
+	public void buff(MagickElement element, Entity entity, String[] parameter) {
 		int entityId = entity.getEntityId();
 		if(chantRecord.containsKey(entityId)) {
 			ChantRecordEntry record = chantRecord.get(entityId);

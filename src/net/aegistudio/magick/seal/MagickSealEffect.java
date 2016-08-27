@@ -53,6 +53,6 @@ public class MagickSealEffect implements SpellEffect {
 	
 	@Override
 	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
-		new MagickSealPaintTask(this, painterFactory.newPainter(sender)).start();
+		new MagickSealPaintTask(this, painterFactory.newPainter(sender), params).start();
 	}
 }

@@ -25,10 +25,10 @@ public abstract class TransformPainter implements Painter {
 	protected double[] vecBuffer = new double[4];
 	protected double[] vec = new double[4];
 	@Override
-	public void paint(double x, double y, double z) {
+	public void paint(double x, double y, double z, String[] arguments) {
 		this.vec[0] = x; this.vec[1] = y; this.vec[2] = z; this.vec[3] = 1;
 		this.multUnifyVec();
-		next.paint(this.vec[0], this.vec[1], this.vec[2]);
+		next.paint(this.vec[0], this.vec[1], this.vec[2], arguments);
 	}
 	
 	protected void setZero() {

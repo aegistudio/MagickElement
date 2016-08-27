@@ -14,9 +14,9 @@ public class FilteredPainter implements Painter {
 	}
 	
 	@Override
-	public void paint(double x, double y, double z) {
+	public void paint(double x, double y, double z, String[] arguments) {
 		if(counter % scanInterval == tick)
-			next.paint(x, y, z);
+			next.paint(x, y, z, arguments);
 		counter ++;
 	}
 

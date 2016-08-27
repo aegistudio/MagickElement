@@ -27,7 +27,7 @@ public class FireworkParticle implements Spawnable{
 	}
 
 	@Override
-	public void spawn(Location location) {
+	public void spawn(Location location, String[] arguments) {
 		Firework firework = location.getWorld().spawn(location, Firework.class);
 		FireworkMeta meta = firework.getFireworkMeta();
 		meta.addEffect(FireworkEffect.builder().withColor(Color.RED)

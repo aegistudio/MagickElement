@@ -23,7 +23,7 @@ public class RangedSpawn implements SpellEffect {
 	
 	@Override
 	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
-		new RangedSpawnRunnable(element, this, sender.getLocation()).start();
+		new RangedSpawnRunnable(element, this, sender.getLocation(), params).start();
 	}
 	
 	@Override

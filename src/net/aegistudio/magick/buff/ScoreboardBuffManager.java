@@ -19,14 +19,14 @@ public class ScoreboardBuffManager implements BuffManager {
 	private ScoreboardBuffUpdater updater = new ScoreboardBuffUpdater(this);
 	
 	@Override
-	public void buff(Entity entity, Buff buff, long duration) {
+	public void buff(Entity entity, Buff buff, long duration, String[] parameters) {
 		ScoreboardBuffRecord record = entityBuffs.get(entity);
 		if(record == null) entityBuffs.put(entity, 
 				record = new ScoreboardBuffRecord(element.getServer()
 						.getScoreboardManager().getNewScoreboard(), scoreboardTitle, updateTick));
 		
 		record.set(buff, duration);
-		buff.buff(element, entity);
+		buff.buff(element, entity, parameters);
 		updater.start();
 	}
 

@@ -13,9 +13,9 @@ import net.aegistudio.magick.MagickElement;
 
 public class SparseGenerator implements Generator {
 	@Override
-	public void generate(Painter painter) {
+	public void generate(Painter painter, String[] arguments) {
 		for(int i = 0; i < x.length; i ++)
-			painter.paint(x[i], y[i], 0);
+			painter.paint(x[i], y[i], 0, arguments);
 	}
 
 	private Filter filter = new GrayScaleFilter();

@@ -14,8 +14,10 @@ import org.bukkit.event.entity.PotionSplashEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import net.aegistudio.magick.AlgebraExpression;
 import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Parameter;
 import net.aegistudio.magick.buff.Buff;
 import net.aegistudio.magick.spell.SpellEffect;
 
@@ -28,7 +30,7 @@ public class PotionResistance implements SpellEffect, Buff, Runnable, Listener {
 	public @Configurable(Configurable.Type.STRING) String buffName = "Resistance";
 	public @Configurable(Configurable.Type.LOCALE) String beginEffect;
 	public @Configurable(Configurable.Type.LOCALE) String endEffect;
-	public @Configurable(Configurable.Type.CONSTANT) int duration = 50;
+	public @Configurable(Configurable.Type.ALGEBRA) AlgebraExpression duration = new AlgebraExpression("50");
 	
 	public static final String POTIONEFFECT_TYPE = "potion";
 	public PotionEffectType potionEffect;
@@ -51,7 +53,7 @@ public class PotionResistance implements SpellEffect, Buff, Runnable, Listener {
 	}
 
 	@Override
-	public void buff(MagickElement element, Entity entity) {
+	public void buff(MagickElement element, Entity entity, String[] params) {
 		if(!(entity instanceof LivingEntity)) return;
 		LivingEntity living = ((LivingEntity)entity);
 		living.removePotionEffect(potionEffect);
@@ -68,7 +70,7 @@ public class PotionResistance implements SpellEffect, Buff, Runnable, Listener {
 
 	@Override
 	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
-		element.buff.buff(sender, this, duration);
+		element.buff.buff(sender, this, duration.getInt(new Parameter(params)), params);
 	}
 
 	@Override

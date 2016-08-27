@@ -53,6 +53,8 @@ public class Expression {
 		try {
 			Bindings bindings = getEngine().createBindings();
 			bindings.put("param", params);
+			bindings.put("p", params);
+			
 			this.bind(bindings);
 			return script.eval(bindings);
 		}

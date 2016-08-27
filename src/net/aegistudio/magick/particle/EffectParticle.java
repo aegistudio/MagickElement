@@ -4,12 +4,13 @@ import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 
+import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
 import net.aegistudio.magick.Spawnable;
 
 public class EffectParticle implements Spawnable {
-	Effect effect; public static final String EFFECT_TYPE = "effectType";
-	int data; public static final String EFFECT_DATA = "effectData";
+	public @Configurable(value = Configurable.Type.ENUM, name = "effectType") Effect effect;
+	public @Configurable(value = Configurable.Type.CONSTANT, name = "effectData") int data; 
 	
 	public EffectParticle() {}
 	
@@ -20,23 +21,19 @@ public class EffectParticle implements Spawnable {
 	
 	@Override
 	public void load(MagickElement magick, ConfigurationSection config) throws Exception {
-		if(config.contains(EFFECT_TYPE)) 
-			effect = Effect.valueOf(config.getString(EFFECT_TYPE));
-		if(config.contains(EFFECT_DATA))
-			data = config.getInt(EFFECT_DATA);
+		magick.loadConfigurable(this, config);
 	}
 
 	@Override
-	public void save(MagickElement element, ConfigurationSection config) throws Exception {
-		config.set(EFFECT_TYPE, effect.toString());
-		config.set(EFFECT_DATA, data);
+	public void save(MagickElement magick, ConfigurationSection config) throws Exception {
+		magick.saveConfigurable(this, config);
 	}
 
 	@Override
 	public void after(MagickElement element) {	}
 
 	@Override
-	public void spawn(Location location) {
+	public void spawn(Location location, String[] arguments) {
 		location.getWorld().playEffect(location, effect, data);
 	}
 }

@@ -33,13 +33,13 @@ public class MutedBuffManager implements BuffManager {
 	}
 	
 	@Override
-	public void buff(Entity entity, Buff buff, long duration) {
+	public void buff(Entity entity, Buff buff, long duration, String[] parameters) {
 		BuffRecord buffRecord = entityBuffs.get(entity.getEntityId());
 		if(buffRecord == null) entityBuffs.put(entity.getEntityId(), 
 				buffRecord = new BuffRecord());
 		
 		buffRecord.increment(buff, 1);
-		buff.buff(element, entity);
+		buff.buff(element, entity, parameters);
 		element.getServer().getScheduler().runTaskLater(element, 
 				new BuffRemoval(entity, buffRecord, buff), duration);
 	}

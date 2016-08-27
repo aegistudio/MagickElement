@@ -8,7 +8,7 @@ package net.aegistudio.magick.seal;
  */
 
 public interface Painter {
-	public void paint(double x, double y, double z);
+	public void paint(double x, double y, double z, String[] arguments);
 	
 	public void end();
 }

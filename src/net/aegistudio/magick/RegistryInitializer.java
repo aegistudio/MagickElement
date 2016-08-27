@@ -85,7 +85,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			determined.effect = determineSpell;
 			
 			determineSpell.buffName = "Determined";
-			determineSpell.duration = 200;
+			determineSpell.duration = new AlgebraExpression("200");
 			
 			determined.description = "You have a determined heart to hurt others.";
 			determined.spellPrice = new ElementExpression();
@@ -107,7 +107,7 @@ public class RegistryInitializer implements Initializer<SpellRegistry> {
 			VampireHand vampireSpell = new VampireHand();
 			vampire.effect = vampireSpell;
 			
-			vampireSpell.duration = 200;
+			vampireSpell.duration = new AlgebraExpression("200");
 			
 			vampire.description = "If you want to taste the blood of others, then suck.";
 			vampire.spellPrice = new ElementExpression();

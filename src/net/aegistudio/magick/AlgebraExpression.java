@@ -5,7 +5,7 @@ public class AlgebraExpression {
 	private final Double value;
 	private final String expressionString;
 	
-	public AlgebraExpression(String expression) throws Exception {
+	public AlgebraExpression(String expression) {
 		this.expressionString = expression;
 		Double v;
 		try {
@@ -13,7 +13,12 @@ public class AlgebraExpression {
 		}
 		catch(Throwable t) {
 			v = null;
-			this.expression = new Expression(expression);
+			try {
+				this.expression = new Expression(expression);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 		this.value = v;
 	}

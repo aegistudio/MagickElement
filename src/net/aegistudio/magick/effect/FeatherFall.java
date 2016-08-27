@@ -1,6 +1,6 @@
 package net.aegistudio.magick.effect;
 
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -9,26 +9,28 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import net.aegistudio.magick.AlgebraExpression;
 import net.aegistudio.magick.Configurable;
 import net.aegistudio.magick.MagickElement;
+import net.aegistudio.magick.Parameter;
 import net.aegistudio.magick.buff.Buff;
 import net.aegistudio.magick.compat.CompatibleSound;
 import net.aegistudio.magick.particle.MagickParticle;
 import net.aegistudio.magick.spell.SpellEffect;
 
 public class FeatherFall implements SpellEffect, Listener, Buff {
-	private final TreeSet<Integer> protecting = new TreeSet<Integer>();
+	private final TreeMap<Integer, Double> protecting = new TreeMap<Integer, Double>();
 	
 	@Override
 	public void spell(MagickElement element, Entity sender, Location location, String[] params) {
-		element.buff.buff(sender, this, duration);
+		element.buff.buff(sender, this, duration.getInt(new Parameter(params)), params);
 	}
 
 	public @Configurable(Configurable.Type.LOCALE) String effectBegin = "You feel you were as light as a swallow...";
 	public @Configurable(Configurable.Type.LOCALE) String effectEnd = "You could feel the pull of gravity again...";
 	
-	public @Configurable(Configurable.Type.CONSTANT) long duration = 200;
-	public @Configurable(Configurable.Type.CONSTANT) double velocity = 0.2;
+	public @Configurable(Configurable.Type.ALGEBRA) AlgebraExpression duration = new AlgebraExpression("200");
+	public @Configurable(Configurable.Type.ALGEBRA) AlgebraExpression velocity = new AlgebraExpression("0.2");
 	public @Configurable(Configurable.Type.STRING) String buffName = "Feather Fall";
 	
 	@Override
@@ -45,7 +47,9 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 	
 	@EventHandler
 	public void handleFallSpeed(PlayerMoveEvent event) {
-		if(!protecting.contains(event.getPlayer().getEntityId())) return;
+		if(!protecting.containsKey(event.getPlayer().getEntityId())) return;
+		double velocity = protecting.get(event.getPlayer().getEntityId());
+		
 		if(event.getPlayer().getVelocity().getY() < -velocity) {
 			event.getPlayer().setVelocity(event.getPlayer().getVelocity().setY(-velocity));
 			feather.play(event.getPlayer().getLocation());
@@ -59,8 +63,8 @@ public class FeatherFall implements SpellEffect, Listener, Buff {
 	}
 
 	@Override
-	public void buff(MagickElement element, Entity entity) {
-		this.protecting.add(entity.getEntityId());
+	public void buff(MagickElement element, Entity entity, String[] parameters) {
+		this.protecting.put(entity.getEntityId(), velocity.getDouble(new Parameter(parameters)));
 		if(effectBegin != null) entity.sendMessage(effectBegin);
 	}
 

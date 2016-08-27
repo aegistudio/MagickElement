@@ -10,5 +10,5 @@ import net.aegistudio.magick.Module;
  */
 
 public interface Generator extends Module {
-	public void generate(Painter painter);
+	public void generate(Painter painter, String[] arguments);
 }

@@ -39,7 +39,7 @@ public class NearestGround implements Spawnable {
 	}
 
 	@Override
-	public void spawn(Location location) {
+	public void spawn(Location location, String[] arguments) {
 		int x = location.getBlockX();
 		int y = location.getBlockY();
 		int z = location.getBlockZ();
@@ -47,7 +47,7 @@ public class NearestGround implements Spawnable {
 			// Search down.
 			for(int i = 1; i <= allowedRange; i ++) 
 				if(location.getWorld().getBlockAt(x, y - i, z).getType() != Material.AIR) {
-					this.wrapped.spawn(location.clone().add(0, -i + 1, 0));
+					this.wrapped.spawn(location.clone().add(0, -i + 1, 0), arguments);
 					break;
 				}
 		}
@@ -55,7 +55,7 @@ public class NearestGround implements Spawnable {
 			// Search up.
 			for(int i = 1; i <= allowedRange; i ++) 
 				if(location.getWorld().getBlockAt(x, y + i, z).getType() == Material.AIR) {
-					this.wrapped.spawn(location.clone().add(0, i, 0));
+					this.wrapped.spawn(location.clone().add(0, i, 0), arguments);
 					break;
 				}
 		}

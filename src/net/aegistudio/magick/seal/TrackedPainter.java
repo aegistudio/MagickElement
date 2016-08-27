@@ -8,6 +8,7 @@ public class TrackedPainter implements Painter {
 	private final Entity target;
 	private final Spawnable effect;
 	private final double scale;
+	
 	public TrackedPainter(Entity target, Spawnable effect, double scale) {
 		this.target = target;
 		this.effect = effect;
@@ -15,8 +16,9 @@ public class TrackedPainter implements Painter {
 	}
 	
 	@Override
-	public void paint(double x, double z, double y) {
-		this.effect.spawn(this.target.getLocation().add(x * scale, y * scale, z * scale));
+	public void paint(double x, double z, double y, String[] arguments) {
+		this.effect.spawn(this.target.getLocation()
+				.add(x * scale, y * scale, z * scale), arguments);
 	}
 
 	@Override

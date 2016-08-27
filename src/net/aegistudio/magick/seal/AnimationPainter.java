@@ -16,9 +16,9 @@ public class AnimationPainter implements Painter {
 	}
 	
 	@Override
-	public void paint(double x, double y, double z) {
+	public void paint(double x, double y, double z, String[] arguments) {
 		if(index < painter.length)
-			painter[index].paint(x, y, z);
+			painter[index].paint(x, y, z, arguments);
 	}
 
 	@Override

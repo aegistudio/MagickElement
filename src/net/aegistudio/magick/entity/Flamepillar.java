@@ -29,7 +29,7 @@ public class Flamepillar implements Spawnable {
 	public static final double PILLAR_FACTOR = 0.12;
 	@SuppressWarnings("deprecation")
 	@Override
-	public void spawn(Location location) {
+	public void spawn(Location location, String[] arguments) {
 		location.getWorld().playSound(location, CompatibleSound.FIZZ.get(element), 1.0f, 1.0f);
 		FallingBlock previous = null;
 		for(int i = 0; i < 3; i ++) {
