@@ -51,7 +51,7 @@ public class MpSpellHandler implements SpellHandler {
 						.makeMagick(element, player, player.getLocation(), magickBook, spell);
 				
 				new MpCooldown(this, player);
-				new PlayerParticle(Effect.HAPPY_VILLAGER, spellPoint).show(player);
+				new PlayerParticle(Effect.valueOf("HAPPY_VILLAGER"), spellPoint).show(player);
 				player.getWorld().playSound(player.getLocation(), CompatibleSound.LEVEL_UP.get(element), 1.0f, 1.0f);
 			}
 			

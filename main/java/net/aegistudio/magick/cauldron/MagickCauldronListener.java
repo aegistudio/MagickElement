@@ -76,7 +76,7 @@ public class MagickCauldronListener implements Listener {
 		this.inventory.breakBlock(event);
 	}
 	
-	private final BlockParticle blockParticle = new BlockParticle(Effect.HAPPY_VILLAGER, 6);
+	private final BlockParticle blockParticle = new BlockParticle(Effect.valueOf("HAPPY_VILLAGER"), 6);
 	
 	private final MagickParticle glyph;
 	

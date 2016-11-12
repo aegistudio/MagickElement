@@ -11,7 +11,7 @@ import net.aegistudio.magick.particle.EffectParticle;
 public class TrackedFactory implements PainterFactory {
 	private double scale = 5.0; public static final String SCALE = "scale";
 	
-	public Spawnable effect = new EffectParticle(Effect.HAPPY_VILLAGER);
+	public Spawnable effect = new EffectParticle(Effect.valueOf("HAPPY_VILLAGER"));
 	public static final String EFFECT_CLASS = "effectClass";
 	public static final String EFFECT_CONFIG = "effectConfig";
 	

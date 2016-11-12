@@ -20,7 +20,7 @@ public class MagickParticle {
 	
 	public void play(Location location) {
 		for(int i = 0; i < tier(); i ++) 
-			location.getWorld().playEffect(location, Effect.FLYING_GLYPH, null);
+			location.getWorld().playEffect(location, Effect.valueOf("FLYING_GLYPH"), null);
 		location.getWorld().playSound(location, sound, volume(), pitch());
 	}
 	

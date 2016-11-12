@@ -142,7 +142,7 @@ public class ChantSpellHandler implements SpellHandler, Buff, Listener {
 			ChantRecordEntry record = chantRecord.get(entityId);
 			record.chantStatus += pointPerChant;
 			if(record.chantStatus >= record.chantTotal) {
-				new PlayerParticle(Effect.HAPPY_VILLAGER, record.chantStatus) 
+				new PlayerParticle(Effect.valueOf("HAPPY_VILLAGER"), record.chantStatus) 
 					.show(entity);
 				record.chantParticle.play(entity.getLocation());
 				
